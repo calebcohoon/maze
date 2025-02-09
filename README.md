@@ -3,16 +3,16 @@
 
 ### Phase 1: Development Environment Setup
 1. Build Environment
-   - Set up DOS development environment
-   - Configure compiler for 486 target
-   - Create basic build system/makefile
-   - Set up version control
+   - ~~Set up DOS development environment~~
+   - ~~Configure compiler for 486 target~~
+   - ~~Create basic build system/makefile~~
+   - ~~Set up version control~~
    - Create test framework for validating math operations
 
 2. Basic Program Structure
    - Main loop structure
-   - Mode 13h initialization
-   - Double buffering setup
+   - ~~Mode 13h initialization~~
+   - ~~Double buffering setup~~
    - Basic timing system
    - Keyboard interrupt handler
    - Program exit handling
