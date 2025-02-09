@@ -7,7 +7,7 @@
    - ~~Configure compiler for 486 target~~
    - ~~Create basic build system/makefile~~
    - ~~Set up version control~~
-   - Create test framework for validating math operations
+   - ~~Create test framework for validating math operations~~
 
 2. Basic Program Structure
    - Main loop structure
