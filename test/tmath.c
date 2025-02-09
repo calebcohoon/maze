@@ -1,5 +1,5 @@
 /*
- * test_math.c
+ * tmath.c
  *
  * Implementation of the math testing framework
  */
@@ -10,9 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-/* File-scope variables for tracking current test state */
-static char current_test_name[64];
-static int current_test_failed;
+const char *output_sep = "------------------------------\n";
 
 /*
  * test_init: Initialize the test results structure
@@ -24,7 +22,7 @@ void test_init(test_results_t *results) {
     results->tests_run = 0;
     results->tests_passed = 0;
     results->tests_failed = 0;
-    results->current_suite = 0;
+    results->current_suite = NULL;
 }
 
 /*
@@ -36,7 +34,7 @@ void test_init(test_results_t *results) {
  */
 void test_begin_suite(test_results_t *results, const char *suite_name) {
     printf("\nTest Suite: %s\n", suite_name);
-    printf("----------\n");
+    printf(output_sep);
     results->current_suite = (char *) suite_name;
     results->tests_passed = 0;
     results->tests_failed = 0;
@@ -49,7 +47,7 @@ void test_begin_suite(test_results_t *results, const char *suite_name) {
  *  results - Pointer to test results structure
  */
 void test_end_suite(test_results_t *results) {
-    printf("----------\n");
+    printf(output_sep);
     printf(
         "Suite complete: %d passed, %d failed\n\n", results->tests_passed, results->tests_failed);
 }
@@ -62,22 +60,16 @@ void test_end_suite(test_results_t *results) {
  *  test_func   - Function pointer to the test to run
  *  test_name   - Name of the test being run
  */
-void test_run(test_results_t *results, void (*test_func)(void), const char *test_name) {
-    strncpy(current_test_name, test_name, sizeof(current_test_name) - 1);
-    current_test_name[sizeof(current_test_name) - 1] = '\0';
-    current_test_failed = 0;
-
+void test_run(test_results_t *results, int (*test_func)(void), const char *test_name) {
     printf("Running test: %s...", test_name);
-    test_func();
 
     results->tests_run++;
 
-    if (!current_test_failed) {
+    if (test_func()) {
         results->tests_passed++;
         printf("PASSED\n");
     } else {
         results->tests_failed++;
-        printf("FAILED\n");
     }
 }
 
@@ -88,11 +80,8 @@ void test_run(test_results_t *results, void (*test_func)(void), const char *test
  *  message - Description of why the test failed
  */
 void test_fail(const char *message) {
-    if (!current_test_failed) {
-        printf("FAILED\n");
-        printf("  %s: %s\n", current_test_name, message);
-        current_test_failed = 1;
-    }
+    printf("FAILED\n");
+    printf("  %s\n", message);
 }
 
 /*
@@ -103,11 +92,8 @@ void test_fail(const char *message) {
  *  actual   - Actual integer value
  */
 void test_fail_int(int expected, int actual) {
-    if (!current_test_failed) {
-        printf("FAILED\n");
-        printf("  %s: Expected %d, got %d\n", current_test_name, expected, actual);
-        current_test_failed = 1;
-    }
+    printf("FAILED\n");
+    printf("  Expected %d, got %d\n", expected, actual);
 }
 
 /*
@@ -118,11 +104,8 @@ void test_fail_int(int expected, int actual) {
  *  actual   - Actual float value
  */
 void test_fail_float(float expected, float actual) {
-    if (!current_test_failed) {
-        printf("FAILED\n");
-        printf("  %s: Expected %f, got %f\n", current_test_name, expected, actual);
-        current_test_failed = 1;
-    }
+    printf("FAILED\n");
+    printf("  Expected %f, got %f\n", expected, actual);
 }
 
 /*
@@ -133,6 +116,6 @@ void test_fail_float(float expected, float actual) {
  */
 void test_print_results(const test_results_t *results) {
     printf("\nFinal Results:\n");
-    printf("----------\n");
+    printf(output_sep);
     printf("Total tests: %d\n", results->tests_run);
 }

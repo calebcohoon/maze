@@ -1,5 +1,5 @@
 /*
- * test_math_example.c
+ * tmathex.c
  *
  * Example usage of the math testing framework
  */
@@ -8,20 +8,20 @@
 
 #include "tmath.h"
 
-void test_basic_assertion(void) {
+int test_basic_assertion(void) {
     TEST_ASSERT("True", 1 == 1);
 }
 
 /* Sample test functions */
-void test_basic_addition(void) {
+int test_basic_addition(void) {
     TEST_ASSERT_EQUAL_INT(4, 2 + 2);
 }
 
-void test_basic_multiplication(void) {
+int test_basic_multiplication(void) {
     TEST_ASSERT_EQUAL_INT(6, 2 * 3);
 }
 
-void test_float_operations(void) {
+int test_float_operations(void) {
     TEST_ASSERT_EQUAL_FLOAT(0.5f, 1.0f / 2.0f, 0.001f);
 }
 
