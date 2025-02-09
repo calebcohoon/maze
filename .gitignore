@@ -1,2 +1,3 @@
-/MAIN.OBJ
-/MAZE.EXE
+*.OBJ
+*.EXE
+*.ERR
