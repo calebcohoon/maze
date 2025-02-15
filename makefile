@@ -67,11 +67,11 @@
 # and double buffering can consume significant memory on a 486 system.
 
 CC = wcc386
-CFLAGS = -3r -fp3 -zq -wx -s -mf -i=./include
+CFLAGS = -3r -fp3 -zq -wx -s -mf -i=.\include
 LFLAGS = system dos4g option stack=8k
 
 SRC_DIR = src
-OBJS = main.obj
+OBJS = timer.obj main.obj
 
 all: maze.exe
 
@@ -80,6 +80,9 @@ maze.exe: $(OBJS)
 
 main.obj: $(SRC_DIR)\main.c
 	$(CC) $(CFLAGS) $(SRC_DIR)\main.c
+
+timer.obj: $(SRC_DIR)\timer.c
+	$(CC) $(CFLAGS) $(SRC_DIR)\timer.c
 
 clean:
 	del *.obj

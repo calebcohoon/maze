@@ -2,6 +2,8 @@
 #include <dos.h>   /* For int386() and union REGS */
 #include <string.h>/* For memset() */
 
+#include "timer.h"
+
 /* VGA/Video Constants */
 #define VIDEO_INT 0x10    /* BIOS video interrupt number */
 #define SET_MODE  0x00    /* AH value for set video mode */
@@ -50,11 +52,17 @@ void flip_buffer(void) {
 
 int main() {
     int x = 0;
+    game_state_t game_state;
+
+    /* Initialize game */
+    game_init(&game_state);
 
     /* Enter mode 13h (320x200 256-color) */
     set_mode(MODE_13H);
 
-    while (!kbhit()) {
+    while (game_state.is_running) {
+        game_state.is_running = game_update(&game_state);
+
         memset(back_buffer, 0, SCREEN_SIZE);
 
         /* Draw a moving pixel */
@@ -67,6 +75,9 @@ int main() {
 
     /* Return to text mode */
     set_mode(MODE_TEXT);
+
+    /* Cleanup */
+    game_shutdown(&game_state);
 
     return 0;
 }
