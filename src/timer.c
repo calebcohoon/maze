@@ -9,6 +9,8 @@
 #include <conio.h>
 #include <dos.h>
 
+#include "keyboard.h"
+
 static void(__interrupt __far *orig_timer_handler)(void);
 static volatile unsigned long timer_ticks = 0;
 
@@ -39,6 +41,9 @@ void timer_init(void) {
 
     /* Install our handler */
     _dos_setvect(TIMER_INT, timer_handler);
+
+    /* Enable interrupts */
+    _enable();
 }
 
 /*
@@ -122,7 +127,7 @@ int game_update(game_state_t *state) {
     update_timing(state);
 
     /* Return 0 if ESC is pressed */
-    if (inp(0x60) == 0x01) {
+    if (is_key_pressed(SC_ESC)) {
         return 0;
     }
 

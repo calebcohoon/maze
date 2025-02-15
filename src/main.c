@@ -2,6 +2,7 @@
 #include <dos.h>   /* For int386() and union REGS */
 #include <string.h>/* For memset() */
 
+#include "keyboard.h"
 #include "timer.h"
 
 /* VGA/Video Constants */
@@ -54,14 +55,17 @@ int main() {
     int x = 0;
     game_state_t game_state;
 
-    /* Initialize game */
+    /* Initialize systems */
     game_init(&game_state);
+    keyboard_init();
 
     /* Enter mode 13h (320x200 256-color) */
     set_mode(MODE_13H);
 
     while (game_state.is_running) {
+        /* Update timing and input */
         game_state.is_running = game_update(&game_state);
+        update_key_state();
 
         memset(back_buffer, 0, SCREEN_SIZE);
 
@@ -73,11 +77,12 @@ int main() {
         flip_buffer();
     }
 
+    /* Cleanup */
+    keyboard_shutdown();
+    game_shutdown(&game_state);
+
     /* Return to text mode */
     set_mode(MODE_TEXT);
-
-    /* Cleanup */
-    game_shutdown(&game_state);
 
     return 0;
 }

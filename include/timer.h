@@ -29,5 +29,8 @@ void timer_init(void);
 void timer_shutdown(void);
 void update_timing(game_state_t *state);
 unsigned long get_ticks(void);
+void game_init(game_state_t *state);
+void game_shutdown(game_state_t *state);
+int game_update(game_state_t *state);
 
 #endif /* TIMER_H */

@@ -71,7 +71,7 @@ CFLAGS = -3r -fp3 -zq -wx -s -mf -i=.\include
 LFLAGS = system dos4g option stack=8k
 
 SRC_DIR = src
-OBJS = timer.obj main.obj
+OBJS = main.obj timer.obj keyboard.obj
 
 all: maze.exe
 
@@ -83,6 +83,9 @@ main.obj: $(SRC_DIR)\main.c
 
 timer.obj: $(SRC_DIR)\timer.c
 	$(CC) $(CFLAGS) $(SRC_DIR)\timer.c
+
+keyboard.obj: $(SRC_DIR)\keyboard.c
+	$(CC) $(CFLAGS) $(SRC_DIR)\keyboard.c
 
 clean:
 	del *.obj
