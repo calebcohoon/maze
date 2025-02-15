@@ -14,8 +14,8 @@
    - ~~Mode 13h initialization~~
    - ~~Double buffering setup~~
    - ~~Basic timing system~~
-   - Keyboard interrupt handler
-   - Program exit handling
+   - ~~Keyboard interrupt handler~~
+   - ~~Program exit handling~~
 
 ### Phase 2: Math Foundation
 1. Fixed-Point Number System
