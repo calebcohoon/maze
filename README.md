@@ -10,10 +10,10 @@
    - ~~Create test framework for validating math operations~~
 
 2. Basic Program Structure
-   - Main loop structure
+   - ~~Main loop structure~~
    - ~~Mode 13h initialization~~
    - ~~Double buffering setup~~
-   - Basic timing system
+   - ~~Basic timing system~~
    - Keyboard interrupt handler
    - Program exit handling
 
