@@ -19,9 +19,20 @@ tmath.obj: tmath.c tmath.h
 tmathex.obj: tmathex.c tmath.h
 	$(CC) $(CFLAGS) -c tmathex.c
 
+tfixed.exe: tmath.obj fixed.obj tfixed.obj
+	$(CC) $(CFLAGS) tmath.obj fixed.obj tfixed.obj -fe=tfixed.exe
+
+fixed.obj: ..\src\fixed.c ..\include\fixed.h
+	$(CC) $(CFLAGS) -c ..\src\fixed.c
+
+tfixed.obj: tfixed.c tmath.h ..\include\fixed.h
+	$(CC) $(CFLAGS) -c tfixed.c
+
 clean:
 	del *.obj
 	del tmath.exe
+	del tfixed.exe
 
-test: tmath.exe
+test: tmath.exe tfixed.exe
 	tmath.exe
+	tfixed.exe

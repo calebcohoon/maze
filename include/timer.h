@@ -24,7 +24,7 @@ typedef struct {
     int is_running;            /* Main loop control flag */
 } game_state_t;
 
-/* Function Prototypes */
+/* Function prototypes */
 void timer_init(void);
 void timer_shutdown(void);
 void update_timing(game_state_t *state);

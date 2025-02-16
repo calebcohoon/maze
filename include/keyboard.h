@@ -8,7 +8,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-/* Keyboard Constants */
+/* Keyboard constants */
 #define KEYBOARD_INT    0x09 /* IRQ1 - Keyboard interrupt */
 #define KEYBOARD_PORT   0x60 /* Keyboard data port */
 #define KEYBOARD_STATUS 0x64 /* Keyboard status port */
@@ -21,7 +21,7 @@
 #define SC_UP    0x48
 #define SC_DOWN  0x50
 
-/* Function Prototypes */
+/* Function prototypes */
 void keyboard_init(void);
 void keyboard_shutdown(void);
 int is_key_pressed(unsigned char scancode);
