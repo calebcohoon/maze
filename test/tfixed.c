@@ -228,6 +228,102 @@ int test_abs_fraction(void) {
     TEST_ASSERT_EQUAL_FLOAT(1.2f, fixed_to_float(result), 0.0001f);
 }
 
+/* Test sign of positive number */
+int test_sign_positive(void) {
+    fixed_t x = fixed_from_int(42);
+
+    TEST_ASSERT_EQUAL_INT(1, fixed_sign(x));
+}
+
+/* Test sign of negative number */
+int test_sign_negative(void) {
+    fixed_t x = fixed_from_int(-42);
+
+    TEST_ASSERT_EQUAL_INT(-1, fixed_sign(x));
+}
+
+/* Test sign of zero */
+int test_sign_zero(void) {
+    fixed_t x = fixed_from_int(0);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_sign(x));
+}
+
+/* Test sign of small positive fraction */
+int test_sign_small_positive(void) {
+    fixed_t x = fixed_from_float(0.0001f);
+
+    TEST_ASSERT_EQUAL_INT(1, fixed_sign(x));
+}
+
+/* Test sign of small negative fraction */
+int test_sign_small_negative(void) {
+    fixed_t x = fixed_from_float(-0.0001f);
+
+    TEST_ASSERT_EQUAL_INT(-1, fixed_sign(x));
+}
+
+/* Test negative detection of positive number */
+int test_is_neg_positive(void) {
+    fixed_t x = fixed_from_int(42);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_is_neg(x));
+}
+
+/* Test negative detection of negative number */
+int test_is_neg_negative(void) {
+    fixed_t x = fixed_from_int(-42);
+
+    TEST_ASSERT_EQUAL_INT(1, fixed_is_neg(x));
+}
+
+/* Test negative detection of zero */
+int test_is_neg_zero(void) {
+    fixed_t x = fixed_from_int(0);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_is_neg(x));
+}
+
+/* Test negation of positive number */
+int test_neg_positive(void) {
+    fixed_t x = fixed_from_int(42);
+    fixed_t result = fixed_neg(x);
+
+    TEST_ASSERT_EQUAL_INT(-42, fixed_to_int(result));
+}
+
+/* Test negation of negative number */
+int test_neg_negative(void) {
+    fixed_t x = fixed_from_int(-42);
+    fixed_t result = fixed_neg(x);
+
+    TEST_ASSERT_EQUAL_INT(42, fixed_to_int(result));
+}
+
+/* Test negation of zero */
+int test_neg_zero(void) {
+    fixed_t x = fixed_from_int(0);
+    fixed_t result = fixed_neg(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test negation with fractions */
+int test_neg_fraction(void) {
+    fixed_t x = fixed_from_float(3.14159f);
+    fixed_t result = fixed_neg(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(-3.14159f, fixed_to_float(result), 0.0001f);
+}
+
+/* Test negation with small fractions */
+int test_neg_small_fraction(void) {
+    fixed_t x = fixed_from_float(0.0001f);
+    fixed_t result = fixed_neg(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(-0.0001f, fixed_to_float(result), 0.0001f);
+}
+
 int main(void) {
     test_results_t results;
 
@@ -277,6 +373,31 @@ int main(void) {
     test_run(&results, test_abs_negative, "Absolute value of Negative");
     test_run(&results, test_abs_zero, "Absolute Value of Zero");
     test_run(&results, test_abs_fraction, "Absolute Value of Fraction");
+    test_end_suite(&results);
+
+    /* Run sign tests */
+    test_begin_suite(&results, "Fixed-Point Sign Function");
+    test_run(&results, test_sign_positive, "Sign of Positive");
+    test_run(&results, test_sign_negative, "Sign of Negative");
+    test_run(&results, test_sign_zero, "Sign of Zero");
+    test_run(&results, test_sign_small_positive, "Sign of Small Positive");
+    test_run(&results, test_sign_small_negative, "Sign of Small Negative");
+    test_end_suite(&results);
+
+    /* Run is_negative tests */
+    test_begin_suite(&results, "Fixed-Point Is Negative");
+    test_run(&results, test_is_neg_positive, "Is Negative (Positive)");
+    test_run(&results, test_is_neg_negative, "Is Negative (Negative)");
+    test_run(&results, test_is_neg_zero, "Is Negative (Zero)");
+    test_end_suite(&results);
+
+    /* Run negation tests */
+    test_begin_suite(&results, "Fixed-Point Negation");
+    test_run(&results, test_neg_positive, "Negate Positive");
+    test_run(&results, test_neg_negative, "Negate Negative");
+    test_run(&results, test_neg_zero, "Negate Zero");
+    test_run(&results, test_neg_fraction, "Negate Fraction");
+    test_run(&results, test_neg_small_fraction, "Negate Small Fraction");
     test_end_suite(&results);
 
     /* Print final results */

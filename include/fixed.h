@@ -38,5 +38,8 @@ fixed_t fixed_sub(fixed_t a, fixed_t b);
 fixed_t fixed_mul(fixed_t a, fixed_t b);
 fixed_t fixed_div(fixed_t a, fixed_t b);
 fixed_t fixed_abs(fixed_t x);
+int fixed_sign(fixed_t x);
+int fixed_is_neg(fixed_t x);
+fixed_t fixed_neg(fixed_t x);
 
 #endif /* FIXED_H */

@@ -37,7 +37,7 @@
       - Square root implementation
       - Power/exponent functions
       - ~~Absolute value~~
-      - Sign handling
+      - ~~Sign handling~~
       - Range checking functions
 
 2. Vector Mathematics

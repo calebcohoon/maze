@@ -201,3 +201,75 @@ fixed_t fixed_abs(fixed_t x) {
 
     return result;
 }
+
+/*
+ * fixed_sign: Get sign of a fixed-point number
+ *
+ * Parameters:
+ *   x - Number to read the sign (fixed-point value)
+ *
+ * Returns:
+ *   -1 if negative or 1 if positive or 0 if zero
+ *
+ * Notes:
+ *   - Uses branchless 486 assembly for efficiency
+ */
+int fixed_sign(fixed_t x) {
+    int result;
+
+    __asm {
+        xor eax, eax        ; Clear eax
+        mov edx, x          ; Load value into edx
+        test edx, edx       ; Test value
+        jz done             ; If zero, leave eax as 0
+        mov eax, 1          ; Assume positive
+        js negative         ; Jump if sign bit is set
+        jmp done            ; Positive case
+    negative:
+        mov eax, -1         ; Negative case
+    done:
+        mov result, eax     ; Store result
+    }
+
+    return result;
+}
+
+/*
+ * fixed_is_neg: Check if fixed-point number is negative
+ *
+ * Parameters:
+ *   x - Number to read the sign (fixed-point value)
+ *
+ * Returns:
+ *   1 if negative or 0 if positive
+ *
+ * Notes:
+ *   - Uses single test of high bit
+ */
+int fixed_is_neg(fixed_t x) {
+    return (x < 0) ? 1 : 0;
+}
+
+/*
+ * fixed_neg: Negate a fixed-point number
+ *
+ * Parameters:
+ *   x - Number to negate (fixed-point value)
+ *
+ * Returns:
+ *   Negated value of fixed-point number
+ *
+ * Notes:
+ *   - Uses optimized 486 assembly
+ */
+fixed_t fixed_neg(fixed_t x) {
+    fixed_t result;
+
+    __asm {
+        mov eax, x          ; Load value into eax
+        neg eax             ; Negate value
+        mov result, eax     ; Store result
+    }
+
+    return result;
+}
