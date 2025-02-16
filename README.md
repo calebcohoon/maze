@@ -20,11 +20,11 @@
 ### Phase 2: Math Foundation
 1. Fixed-Point Number System
    a. Basic System (16.16)
-      - Create fixed_t type definition
-      - Implement fixed-to-int conversion
-      - Implement int-to-fixed conversion
-      - Create conversion test suite
-      - Document numeric range and precision
+      - ~~Create fixed_t type definition~~
+      - ~~Implement fixed-to-int conversion~~
+      - ~~Implement int-to-fixed conversion~~
+      - ~~Create conversion test suite~~
+      - ~~Document numeric range and precision~~
    
    b. Basic Arithmetic
       - Addition and subtraction operations
