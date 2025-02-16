@@ -27,11 +27,11 @@
       - ~~Document numeric range and precision~~
    
    b. Basic Arithmetic
-      - Addition and subtraction operations
-      - Multiplication implementation
-      - Division implementation
-      - Overflow handling
-      - Complete arithmetic test suite
+      - ~~Addition and subtraction operations~~
+      - ~~Multiplication implementation~~
+      - ~~Division implementation~~
+      - ~~Overflow handling~~
+      - ~~Complete arithmetic test suite~~
    
    c. Advanced Operations
       - Square root implementation
