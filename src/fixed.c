@@ -121,7 +121,7 @@ fixed_t fixed_sub(fixed_t a, fixed_t b) {
  *
  * Notes:
  *   - Uses IMUL instruction to get full 64-bit result, then
- *     shifts right by 16 to adjust back to fixed-point format.
+ *     shifts right by 16 to adjust back to fixed-point format
  *   - May overflow if result exceeds 32767.99998474121094
  *   - May underflow if result is less than -32768.0
  */
@@ -133,6 +133,44 @@ fixed_t fixed_mul(fixed_t a, fixed_t b) {
         imul b              ; Multiply by second operand, result in edx:eax
         shrd eax, edx, 16   ; Shift composite 64-bit value right by 16
         mov result, eax     ; Store the result
+    }
+
+    return result;
+}
+
+/*
+ * fixed_div: Divide two fixed-point numbers using 486 assembly
+ *
+ * Parameters:
+ *   a - Dividend (fixed-point value)
+ *   b - Divisor (fixed-point value)
+ *
+ * Returns:
+ *   Result of a / b
+ *   Returns FIXED_DIV_ZERO if b is zero
+ *
+ * Notes:
+ *   - Uses IDIV instruction with pre-scaling
+ *   - Pre-shifts dividend by 16 to maintain precision
+ *   - May overflow if result exceeds 32767.99998474121094
+ *   - May underflow if result is less than -32768.0
+ */
+fixed_t fixed_div(fixed_t a, fixed_t b) {
+    fixed_t result;
+
+    /* Check for division by zero */
+    if (b == 0) {
+        return FIXED_DIV_ZERO;
+    }
+
+    __asm {
+        mov eax, a          ; Load dividend into eax
+        cdq                 ; Sign extend eax into edx
+        rol eax, 16         ; Rotate left to get into position
+        mov dx, ax          ; Move lower 16-bits to dx
+        xor ax, ax          ; Zero lower 16-bits
+        idiv b              ; Divide edx:eax by divisor
+        mov result, eax     ; Store result
     }
 
     return result;

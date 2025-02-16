@@ -142,6 +142,60 @@ int test_multiplication_small_frac(void) {
     TEST_ASSERT_EQUAL_FLOAT(0.02f, fixed_to_float(result), 0.0001f);
 }
 
+/* Test basic division */
+int test_division_basic(void) {
+    fixed_t a = fixed_from_int(10);
+    fixed_t b = fixed_from_int(2);
+    fixed_t result = fixed_div(a, b);
+
+    TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result));
+}
+
+/* Test division with fractions */
+int test_division_frac(void) {
+    fixed_t a = fixed_from_float(5.0f);
+    fixed_t b = fixed_from_float(2.0f);
+    fixed_t result = fixed_div(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(2.5f, fixed_to_float(result), 0.0001f);
+}
+
+/* Test division by zero */
+int test_division_by_zero(void) {
+    fixed_t a = fixed_from_int(123);
+    fixed_t b = fixed_from_int(0);
+    fixed_t result = fixed_div(a, b);
+
+    TEST_ASSERT("Division by zero returns error value", result == FIXED_DIV_ZERO);
+}
+
+/* Test division of zero */
+int test_division_of_zero(void) {
+    fixed_t a = fixed_from_int(0);
+    fixed_t b = fixed_from_int(123);
+    fixed_t result = fixed_div(a, b);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test division with negative numbers */
+int test_division_negative(void) {
+    fixed_t a = fixed_from_int(-12);
+    fixed_t b = fixed_from_int(4);
+    fixed_t result = fixed_div(a, b);
+
+    TEST_ASSERT_EQUAL_INT(-3, fixed_to_int(result));
+}
+
+/* Test division with small fractions */
+int test_division_small_frac(void) {
+    fixed_t a = fixed_from_float(0.02f);
+    fixed_t b = fixed_from_float(0.1f);
+    fixed_t result = fixed_div(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(0.2f, fixed_to_float(result), 0.0001f);
+}
+
 int main(void) {
     test_results_t results;
 
@@ -173,6 +227,16 @@ int main(void) {
     test_run(&results, test_multiplication_zero, "Multiplication by Zero");
     test_run(&results, test_multiplication_negative, "Negative Multiplication");
     test_run(&results, test_multiplication_small_frac, "Small Fraction Multiplication");
+    test_end_suite(&results);
+
+    /* Run division tests */
+    test_begin_suite(&results, "Fixed-Point Division");
+    test_run(&results, test_division_basic, "Basic Division");
+    test_run(&results, test_division_frac, "Fractional Division");
+    test_run(&results, test_division_by_zero, "Division by Zero");
+    test_run(&results, test_division_of_zero, "Division of Zero");
+    test_run(&results, test_division_negative, "Negative Division");
+    test_run(&results, test_division_small_frac, "Small Fraction Division");
     test_end_suite(&results);
 
     /* Print final results */
