@@ -175,3 +175,29 @@ fixed_t fixed_div(fixed_t a, fixed_t b) {
 
     return result;
 }
+
+/*
+ * fixed_abs: Get absolute value of a fixed-point number
+ *
+ * Parameters:
+ *   x - Number to remove the sign (fixed-point value)
+ *
+ * Returns:
+ *   Result of |x|
+ *
+ * Notes:
+ *   - Uses conditional jump-free 486 assembly for efficiency
+ */
+fixed_t fixed_abs(fixed_t x) {
+    fixed_t result;
+
+    __asm {
+        mov eax, x          ; Load value into eax
+        cdq                 ; Sign extend eax into edx (fills edx with sign bit)
+        xor eax, edx        ; Flip bits if negative
+        sub eax, edx        ; Add 1 if was negative
+        mov result, eax     ; Store result
+    }
+
+    return result;
+}

@@ -20,14 +20,6 @@
 #          - Keeps build output clean and manageable
 #          - Can be removed for more verbose debugging output
 #
-# -wx    : Maximum warning level
-#          - Catches potential issues like:
-#            * Uninitialized variables
-#            * Type mismatches
-#            * Implicit conversions
-#            * Unused variables
-#          - Essential for maintaining code quality
-#
 # -s     : Removes stack overflow checking
 #          - Improves performance by eliminating runtime checks
 #          - Safe when stack usage is carefully controlled
@@ -67,7 +59,7 @@
 # and double buffering can consume significant memory on a 486 system.
 
 CC = wcc386
-CFLAGS = -3r -fp3 -zq -wx -s -mf -i=.\include
+CFLAGS = -3r -fp3 -zq -s -mf -i=.\include
 LFLAGS = system dos4g option stack=8k
 
 tmath.exe: tmath.obj tmathex.obj

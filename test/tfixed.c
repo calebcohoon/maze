@@ -196,6 +196,38 @@ int test_division_small_frac(void) {
     TEST_ASSERT_EQUAL_FLOAT(0.2f, fixed_to_float(result), 0.0001f);
 }
 
+/* Test absolute value of a positive number */
+int test_abs_positive(void) {
+    fixed_t x = fixed_from_int(5);
+    fixed_t result = fixed_abs(x);
+
+    TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result));
+}
+
+/* Test absolute value of a negative number */
+int test_abs_negative(void) {
+    fixed_t x = fixed_from_int(-3);
+    fixed_t result = fixed_abs(x);
+
+    TEST_ASSERT_EQUAL_INT(3, fixed_to_int(result));
+}
+
+/* Test absolute value of zero */
+int test_abs_zero(void) {
+    fixed_t x = fixed_from_int(0);
+    fixed_t result = fixed_abs(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test absolute value of a fraction */
+int test_abs_fraction(void) {
+    fixed_t x = fixed_from_float(-1.2f);
+    fixed_t result = fixed_abs(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.2f, fixed_to_float(result), 0.0001f);
+}
+
 int main(void) {
     test_results_t results;
 
@@ -237,6 +269,14 @@ int main(void) {
     test_run(&results, test_division_of_zero, "Division of Zero");
     test_run(&results, test_division_negative, "Negative Division");
     test_run(&results, test_division_small_frac, "Small Fraction Division");
+    test_end_suite(&results);
+
+    /* Run absolute value tests */
+    test_begin_suite(&results, "Fixed-Point Absolute Value");
+    test_run(&results, test_abs_positive, "Absolute Value of Positive");
+    test_run(&results, test_abs_negative, "Absolute value of Negative");
+    test_run(&results, test_abs_zero, "Absolute Value of Zero");
+    test_run(&results, test_abs_fraction, "Absolute Value of Fraction");
     test_end_suite(&results);
 
     /* Print final results */
