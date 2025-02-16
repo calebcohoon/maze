@@ -97,6 +97,51 @@ int test_subtraction_fractional(void) {
     TEST_ASSERT_EQUAL_FLOAT(3.25f, fixed_to_float(result), 0.0001f);
 }
 
+/* Test multiplication of integers */
+int test_multiplication_int(void) {
+    fixed_t a = fixed_from_int(3);
+    fixed_t b = fixed_from_int(4);
+    fixed_t result = fixed_mul(a, b);
+
+    TEST_ASSERT_EQUAL_INT(12, fixed_to_int(result));
+}
+
+/* Test multiplication of integers */
+int test_multiplication_frac(void) {
+    fixed_t a = fixed_from_float(2.5f);
+    fixed_t b = fixed_from_float(1.5f);
+    fixed_t result = fixed_mul(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(3.75f, fixed_to_float(result), 0.0001f);
+}
+
+/* Test multiplication by zero */
+int test_multiplication_zero(void) {
+    fixed_t a = fixed_from_int(123);
+    fixed_t b = fixed_from_int(0);
+    fixed_t result = fixed_mul(a, b);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test multiplication with negative numbers */
+int test_multiplication_negative(void) {
+    fixed_t a = fixed_from_int(-3);
+    fixed_t b = fixed_from_int(4);
+    fixed_t result = fixed_mul(a, b);
+
+    TEST_ASSERT_EQUAL_INT(-12, fixed_to_int(result));
+}
+
+/* Test multiplication with small fractions */
+int test_multiplication_small_frac(void) {
+    fixed_t a = fixed_from_float(0.1f);
+    fixed_t b = fixed_from_float(0.2f);
+    fixed_t result = fixed_mul(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(0.02f, fixed_to_float(result), 0.0001f);
+}
+
 int main(void) {
     test_results_t results;
 
@@ -119,6 +164,15 @@ int main(void) {
     test_run(&results, test_subtraction_positive, "Subtraction of Positive Integers");
     test_run(&results, test_subtraction_negative_result, "Subtraction with Negative Result");
     test_run(&results, test_subtraction_fractional, "Subtraction with Fractions");
+    test_end_suite(&results);
+
+    /* Run multiplication tests */
+    test_begin_suite(&results, "Fixed-Point Multiplication");
+    test_run(&results, test_multiplication_int, "Integer Multiplication");
+    test_run(&results, test_multiplication_frac, "Fractional Multiplication");
+    test_run(&results, test_multiplication_zero, "Multiplication by Zero");
+    test_run(&results, test_multiplication_negative, "Negative Multiplication");
+    test_run(&results, test_multiplication_small_frac, "Small Fraction Multiplication");
     test_end_suite(&results);
 
     /* Print final results */

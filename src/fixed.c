@@ -109,3 +109,31 @@ fixed_t fixed_add(fixed_t a, fixed_t b) {
 fixed_t fixed_sub(fixed_t a, fixed_t b) {
     return a - b;
 }
+
+/*
+ * fixed_mul: Multiply two fixed-point numbers using 486 assembly
+ *
+ * Parameters:
+ *   a, b - Fixed-point values to multiply
+ *
+ * Returns:
+ *   Result of a * b
+ *
+ * Notes:
+ *   - Uses IMUL instruction to get full 64-bit result, then
+ *     shifts right by 16 to adjust back to fixed-point format.
+ *   - May overflow if result exceeds 32767.99998474121094
+ *   - May underflow if result is less than -32768.0
+ */
+fixed_t fixed_mul(fixed_t a, fixed_t b) {
+    fixed_t result;
+
+    __asm {
+        mov eax, a          ; Load first operand into eax
+        imul b              ; Multiply by second operand, result in edx:eax
+        shrd eax, edx, 16   ; Shift composite 64-bit value right by 16
+        mov result, eax     ; Store the result
+    }
+
+    return result;
+}
