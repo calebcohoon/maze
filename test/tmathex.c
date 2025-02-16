@@ -31,19 +31,11 @@ int main(void) {
     /* Initialize the test framework */
     test_init(&results);
 
-    /* Run basic assertion test */
-    test_begin_suite(&results, "Basic Assertion");
+    /* Run basic tests */
+    test_begin_suite(&results, "Basic Tests");
     test_run(&results, test_basic_assertion, "True Assertion");
-    test_end_suite(&results);
-
-    /* Run basic arithmetic tests */
-    test_begin_suite(&results, "Basic Arithmetic");
     test_run(&results, test_basic_addition, "Integer Addition");
     test_run(&results, test_basic_multiplication, "Integer Multiplication");
-    test_end_suite(&results);
-
-    /* Run floating point test */
-    test_begin_suite(&results, "Floating Point");
     test_run(&results, test_float_operations, "Float Operations");
     test_end_suite(&results);
 

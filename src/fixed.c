@@ -73,3 +73,39 @@ fixed_t fixed_from_float(float f) {
 float fixed_to_float(fixed_t x) {
     return (float) x / (float) FIXED_ONE;
 }
+
+/*
+ * fixed_add: Add two fixed-point numbers
+ *
+ * Parameters:
+ *   a, b - Fixed-point values to add
+ *
+ * Returns:
+ *   Result of a + b
+ *
+ * Notes:
+ *   - Direct integer addition works because fixed-point numbers
+ *     have the same scaling factor (2^16)
+ *   - No adjustment needed after addition
+ */
+fixed_t fixed_add(fixed_t a, fixed_t b) {
+    return a + b;
+}
+
+/*
+ * fixed_sub: Subtract two fixed-point numbers
+ *
+ * Parameters:
+ *   a, b - Fixed-point values to subtract
+ *
+ * Returns:
+ *   Result of a - b
+ *
+ * Notes:
+ *   - Direct integer subtraction works because fixed-point numbers
+ *     have the same scaling factor (2^16)
+ *   - No adjustment needed after subtraction
+ */
+fixed_t fixed_sub(fixed_t a, fixed_t b) {
+    return a - b;
+}

@@ -32,5 +32,7 @@ fixed_t fixed_from_int(int n);
 int fixed_to_int(fixed_t x);
 fixed_t fixed_from_float(float f);
 float fixed_to_float(fixed_t x);
+fixed_t fixed_add(fixed_t a, fixed_t b);
+fixed_t fixed_sub(fixed_t a, fixed_t b);
 
 #endif /* FIXED_H */
