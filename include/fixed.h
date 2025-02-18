@@ -41,5 +41,6 @@ fixed_t fixed_abs(fixed_t x);
 int fixed_sign(fixed_t x);
 int fixed_is_neg(fixed_t x);
 fixed_t fixed_neg(fixed_t x);
+fixed_t fixed_sqrt(fixed_t x);
 
 #endif /* FIXED_H */

@@ -324,6 +324,44 @@ int test_neg_small_fraction(void) {
     TEST_ASSERT_EQUAL_FLOAT(-0.0001f, fixed_to_float(result), 0.0001f);
 }
 
+/* Test square root of perfect square */
+int test_sqrt_perfect(void) {
+    fixed_t x = fixed_from_int(16);
+    fixed_t result = fixed_sqrt(x);
+
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result));
+}
+
+/* Test square root of zero */
+int test_sqrt_zero(void) {
+    fixed_t result = fixed_sqrt(FIXED_ZERO);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test square root of one */
+int test_sqrt_one(void) {
+    fixed_t result = fixed_sqrt(FIXED_ONE);
+
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result));
+}
+
+/* Test square root of non-perfect square */
+int test_sqrt_non_perfect(void) {
+    fixed_t x = fixed_from_int(2);
+    fixed_t result = fixed_sqrt(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.4142f, fixed_to_float(result), 0.01f);
+}
+
+/* Test square root of negative */
+int test_sqrt_negative(void) {
+    fixed_t x = fixed_from_int(-16);
+    fixed_t result = fixed_sqrt(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -398,6 +436,15 @@ int main(void) {
     test_run(&results, test_neg_zero, "Negate Zero");
     test_run(&results, test_neg_fraction, "Negate Fraction");
     test_run(&results, test_neg_small_fraction, "Negate Small Fraction");
+    test_end_suite(&results);
+
+    /* Run square root tests */
+    test_begin_suite(&results, "Fixed-Point Square Root");
+    test_run(&results, test_sqrt_perfect, "Perfect Square Root");
+    test_run(&results, test_sqrt_zero, "Square Root of Zero");
+    test_run(&results, test_sqrt_one, "Square Root of One");
+    test_run(&results, test_sqrt_non_perfect, "Non-Perfect Square Root");
+    test_run(&results, test_sqrt_negative, "Negative Square Root");
     test_end_suite(&results);
 
     /* Print final results */

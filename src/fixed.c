@@ -273,3 +273,65 @@ fixed_t fixed_neg(fixed_t x) {
 
     return result;
 }
+
+/*
+ * fixed_sqrt: Calculate square root of a fixed-point number
+ *
+ * Parameters:
+ *   x - Fixed-point value to find square root of (must be non-negative)
+ *
+ * Returns:
+ *   Square root of x in fixed-point format
+ *   Returns 0 if input is negative
+ *
+ * Notes:
+ *   - Uses Newton's method: y = (y + x/y) / 2
+ *   - Typeically converges in 4-5 iterations
+ *   - Optimized for 486 instruction set
+ */
+fixed_t fixed_sqrt(fixed_t x) {
+    fixed_t result;
+
+    /* Return 0 for negative inputs */
+    if (x < 0) {
+        return 0;
+    }
+
+    /* Handle 0 and 1 specially */
+    if (x == 0 || x == FIXED_ONE) {
+        return x;
+    }
+
+    __asm {
+        mov ebx, x          ; Load input value into ebx
+        mov eax, ebx        ; Initial guess = x/2
+        shr eax, 1
+        mov ecx, 6          ; Number of iterations
+
+    newton_loop:
+        push ecx            ; Save counter
+        push eax            ; Save current guess
+
+        ; Compute x/guess
+        mov eax, ebx        ; Load x
+        cdq                 ; Sign extend to edx:eax
+        rol eax, 16         ; Adjust for fixed-point division
+        mov dx, ax
+        xor ax, ax
+        pop ecx             ; Restore guess into divisor
+        idiv ecx            ; Divide x by guess
+
+        ; Add guess to x/guess
+        add eax, ecx
+
+        ; Divide by 2
+        sar eax, 1
+
+        pop ecx             ; Restore counter
+        loop newton_loop
+
+        mov result, eax
+    }
+
+    return result;
+}
