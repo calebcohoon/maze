@@ -34,8 +34,7 @@
       - ~~Complete arithmetic test suite~~
    
    c. Advanced Operations
-      - Square root implementation
-      - Power/exponent functions
+      - ~~Square root implementation~~
       - ~~Absolute value~~
       - ~~Sign handling~~
       - Range checking functions
