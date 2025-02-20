@@ -37,7 +37,6 @@
       - ~~Square root implementation~~
       - ~~Absolute value~~
       - ~~Sign handling~~
-      - Range checking functions
 
 2. Vector Mathematics
    a. Vector Types

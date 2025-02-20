@@ -16,13 +16,16 @@
 typedef long fixed_t;
 
 /* Constants */
-#define FIXED_HALF      (1L << 15)             /* 0.5 in fixed-point */
-#define FIXED_ONE       (1L << 16)             /* 1.0 in fixed-point */
-#define FIXED_ZERO      0L                     /* 0.0 in fixed-point */
-#define FIXED_PI        205887L                /* PI in fixed-point (3.14159...) */
-#define FIXED_SHIFT     16                     /* Number of fractional bits */
-#define FIXED_FRAC_MASK 0xFFFF                 /* Mask for fractional part */
-#define FIXED_DIV_ZERO  ((fixed_t) 0x7FFFFFFF) /* Error value for div by zero */
+#define FIXED_HALF     (1L << 15)                /* 0.5 in fixed-point */
+#define FIXED_ONE      (1L << 16)                /* 1.0 in fixed-point */
+#define FIXED_ZERO     0L                        /* 0.0 in fixed-point */
+#define FIXED_PI       205887L                   /* PI in fixed-point (3.14159...) */
+#define FIXED_SHIFT    16                        /* Number of fractional bits */
+#define FIXED_DIV_ZERO ((fixed_t) 0x7FFFFFFF)    /* Error value for div by zero */
+#define FIXED_MAX      ((fixed_t) 0x7FFF0000)    /* Maximum valid fixed-point value */
+#define FIXED_MIN      ((fixed_t) (-0x80000000)) /* Minimum valid fixed-point value*/
+#define FIXED_MAX_INT  32767                     /* Maximum valid integer component (32767) */
+#define FIXED_MIN_INT  (-32768)                  /* Minimum valid integer component (-32768) */
 
 /* Conversion macros */
 #define INT_TO_FIXED(x) ((fixed_t) (x) << FIXED_SHIFT)

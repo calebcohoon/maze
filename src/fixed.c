@@ -20,6 +20,15 @@
  *   - Same as multiplying by 2^16
  */
 fixed_t fixed_from_int(int n) {
+    /* Check if input is too large or small */
+    if (n > FIXED_MAX_INT) {
+        return FIXED_MAX;
+    }
+
+    if (n < FIXED_MIN_INT) {
+        return FIXED_MIN;
+    }
+
     return (fixed_t) n << FIXED_SHIFT;
 }
 
