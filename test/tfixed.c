@@ -1,5 +1,5 @@
 /*
- * fixed_test.c
+ * tfixed.c
  *
  * Test suite for fixed-point number system
  */

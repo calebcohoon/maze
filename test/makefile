@@ -80,11 +80,22 @@ fixed.obj: ..\src\fixed.c ..\include\fixed.h
 tfixed.obj: tfixed.c tmath.h ..\include\fixed.h
 	$(CC) $(CFLAGS) tfixed.c
 
+tvector.exe: tmath.obj fixed.obj vector.obj tvector.obj
+	wlink $(LFLAGS) name $@ file { tmath.obj fixed.obj vector.obj tvector.obj }
+
+vector.obj: ..\src\vector.c ..\include\vector.h
+	$(CC) $(CFLAGS) ..\src\vector.c
+
+tvector.obj: tvector.c tmath.h ..\include\vector.h
+	$(CC) $(CFLAGS) tvector.c
+
 clean:
 	del *.obj
 	del tmath.exe
 	del tfixed.exe
+	del tvector.exe
 
-test: tmath.exe tfixed.exe
+test: tmath.exe tfixed.exe tvector.exe
 	tmath.exe
 	tfixed.exe
+	tvector.exe
