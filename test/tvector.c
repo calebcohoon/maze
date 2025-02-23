@@ -50,6 +50,14 @@ void test_vector2_scale(void) {
     TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.y));
 }
 
+void test_vector2_dot(void) {
+    vector2_t a = vector2_init_int(2, 3);
+    vector2_t b = vector2_init_int(4, 5);
+    fixed_t result = vector2_dot(a, b);
+
+    TEST_ASSERT_EQUAL_INT(23, fixed_to_int(result));
+}
+
 /* Vector3 tests */
 void test_vector3_init(void) {
     vector3_t v = vector3_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3);
@@ -94,6 +102,14 @@ void test_vector3_scale(void) {
     TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.x));
     TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.y));
     TEST_ASSERT_EQUAL_INT(8, fixed_to_int(result.z));
+}
+
+void test_vector3_dot(void) {
+    vector3_t a = vector3_init_int(1, 2, 3);
+    vector3_t b = vector3_init_int(4, 5, 6);
+    fixed_t result = vector3_dot(a, b);
+
+    TEST_ASSERT_EQUAL_INT(32, fixed_to_int(result));
 }
 
 /* Vector4 tests */
@@ -157,6 +173,14 @@ void test_vector4_scale(void) {
     TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.w));
 }
 
+void test_vector4_dot(void) {
+    vector4_t a = vector4_init_int(1, 2, 3, 4);
+    vector4_t b = vector4_init_int(5, 6, 7, 8);
+    fixed_t result = vector4_dot(a, b);
+
+    TEST_ASSERT_EQUAL_INT(70, fixed_to_int(result));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -170,6 +194,7 @@ int main(void) {
     test_run(&results, test_vector2_add, "Vector2 Addition");
     test_run(&results, test_vector2_sub, "Vector2 Subtraction");
     test_run(&results, test_vector2_scale, "Vector2 Scalar Multiplication");
+    test_run(&results, test_vector2_dot, "Vector2 Dot Product");
     test_end_suite(&results);
 
     /* Run Vector3 tests */
@@ -179,6 +204,7 @@ int main(void) {
     test_run(&results, test_vector3_add, "Vector3 Addition");
     test_run(&results, test_vector3_sub, "Vector3 Subtraction");
     test_run(&results, test_vector3_scale, "Vector3 Scalar Multiplication");
+    test_run(&results, test_vector3_dot, "Vector3 Dot Product");
     test_end_suite(&results);
 
     /* Run Vector4 tests */
@@ -189,6 +215,7 @@ int main(void) {
     test_run(&results, test_vector4_add, "Vector4 Addition");
     test_run(&results, test_vector4_sub, "Vector4 Subtraction");
     test_run(&results, test_vector4_scale, "Vector4 Scalar Multiplication");
+    test_run(&results, test_vector4_dot, "Vector4 Dot Product");
     test_end_suite(&results);
 
     /* Print final results */

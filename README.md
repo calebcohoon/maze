@@ -53,7 +53,7 @@
       - ~~Vector tests suite~~
    
    c. Advanced Vector Operations
-      - Dot product
+      - ~~Dot product~~
       - Cross product
       - Vector normalization
       - Vector length calculation

@@ -102,6 +102,23 @@ vector2_t vector2_scale(vector2_t v, fixed_t s) {
 }
 
 /*
+ * vector2_dot: Calculate dot product of two 2D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The dot product of a dot b
+ */
+fixed_t vector2_dot(vector2_t a, vector2_t b) {
+    fixed_t x_prod = fixed_mul(a.x, b.x);
+    fixed_t y_prod = fixed_mul(a.y, b.y);
+
+    return fixed_add(x_prod, y_prod);
+}
+
+/*
  * vector3_init: Initialize a 3D vector with given components
  *
  * Parameters:
@@ -201,6 +218,24 @@ vector3_t vector3_scale(vector3_t v, fixed_t s) {
     result.z = fixed_mul(v.z, s);
 
     return result;
+}
+
+/*
+ * vector3_dot: Calculate dot product of two 3D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The dot product of a dot b
+ */
+fixed_t vector3_dot(vector3_t a, vector3_t b) {
+    fixed_t x_prod = fixed_mul(a.x, b.x);
+    fixed_t y_prod = fixed_mul(a.y, b.y);
+    fixed_t z_prod = fixed_mul(a.z, b.z);
+
+    return fixed_add(fixed_add(x_prod, y_prod), z_prod);
 }
 
 /*
@@ -331,4 +366,23 @@ vector4_t vector4_scale(vector4_t v, fixed_t s) {
     result.w = fixed_mul(v.w, s);
 
     return result;
+}
+
+/*
+ * vector4_dot: Calculate dot product of two 4D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The dot product of a dot b
+ */
+fixed_t vector4_dot(vector4_t a, vector4_t b) {
+    fixed_t x_prod = fixed_mul(a.x, b.x);
+    fixed_t y_prod = fixed_mul(a.y, b.y);
+    fixed_t z_prod = fixed_mul(a.z, b.z);
+    fixed_t w_prod = fixed_mul(a.w, b.w);
+
+    return fixed_add(fixed_add(fixed_add(x_prod, y_prod), z_prod), w_prod);
 }
