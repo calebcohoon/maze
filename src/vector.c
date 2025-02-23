@@ -45,6 +45,63 @@ vector2_t vector2_init_int(int x, int y) {
 }
 
 /*
+ * vector2_add: Adds two 2D vectors together
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The result of a + b
+ */
+vector2_t vector2_add(vector2_t a, vector2_t b) {
+    vector2_t result;
+
+    result.x = fixed_add(a.x, b.x);
+    result.y = fixed_add(a.y, b.y);
+
+    return result;
+}
+
+/*
+ * vector2_sub: Subtracts two 2D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The result of a - b
+ */
+vector2_t vector2_sub(vector2_t a, vector2_t b) {
+    vector2_t result;
+
+    result.x = fixed_sub(a.x, b.x);
+    result.y = fixed_sub(a.y, b.y);
+
+    return result;
+}
+
+/*
+ * vector2_scale: Multiply a 2D vector by a scalar
+ *
+ * Parameters:
+ *   v - Vector to scale
+ *   s - Scalar in fixed-point format
+ *
+ * Returns:
+ *   The result of (v.x * s, v.y * s)
+ */
+vector2_t vector2_scale(vector2_t v, fixed_t s) {
+    vector2_t result;
+
+    result.x = fixed_mul(v.x, s);
+    result.y = fixed_mul(v.y, s);
+
+    return result;
+}
+
+/*
  * vector3_init: Initialize a 3D vector with given components
  *
  * Parameters:
@@ -82,6 +139,66 @@ vector3_t vector3_init_int(int x, int y, int z) {
     result.x = fixed_from_int(x);
     result.y = fixed_from_int(y);
     result.z = fixed_from_int(z);
+
+    return result;
+}
+
+/*
+ * vector3_add: Adds two 3D vectors together
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The result of a + b
+ */
+vector3_t vector3_add(vector3_t a, vector3_t b) {
+    vector3_t result;
+
+    result.x = fixed_add(a.x, b.x);
+    result.y = fixed_add(a.y, b.y);
+    result.z = fixed_add(a.z, b.z);
+
+    return result;
+}
+
+/*
+ * vector3_sub: Subtracts two 3D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The result of a - b
+ */
+vector3_t vector3_sub(vector3_t a, vector3_t b) {
+    vector3_t result;
+
+    result.x = fixed_sub(a.x, b.x);
+    result.y = fixed_sub(a.y, b.y);
+    result.z = fixed_sub(a.z, b.z);
+
+    return result;
+}
+
+/*
+ * vector3_scale: Multiply a 3D vector by a scalar
+ *
+ * Parameters:
+ *   v - Vector to scale
+ *   s - Scalar in fixed-point format
+ *
+ * Returns:
+ *   The result of (v.x * s, v.y * s, v.z * s)
+ */
+vector3_t vector3_scale(vector3_t v, fixed_t s) {
+    vector3_t result;
+
+    result.x = fixed_mul(v.x, s);
+    result.y = fixed_mul(v.y, s);
+    result.z = fixed_mul(v.z, s);
 
     return result;
 }
@@ -149,6 +266,69 @@ vector4_t vector4_from_vec3(vector3_t v, fixed_t w) {
     result.y = v.y;
     result.z = v.z;
     result.w = w;
+
+    return result;
+}
+
+/*
+ * vector4_add: Adds two 4D vectors together
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The result of a + b
+ */
+vector4_t vector4_add(vector4_t a, vector4_t b) {
+    vector4_t result;
+
+    result.x = fixed_add(a.x, b.x);
+    result.y = fixed_add(a.y, b.y);
+    result.z = fixed_add(a.z, b.z);
+    result.w = fixed_add(a.w, b.w);
+
+    return result;
+}
+
+/*
+ * vector4_sub: Subtracts two 4D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The result of a - b
+ */
+vector4_t vector4_sub(vector4_t a, vector4_t b) {
+    vector4_t result;
+
+    result.x = fixed_sub(a.x, b.x);
+    result.y = fixed_sub(a.y, b.y);
+    result.z = fixed_sub(a.z, b.z);
+    result.w = fixed_sub(a.w, b.w);
+
+    return result;
+}
+
+/*
+ * vector4_scale: Multiply a 4D vector by a scalar
+ *
+ * Parameters:
+ *   v - Vector to scale
+ *   s - Scalar in fixed-point format
+ *
+ * Returns:
+ *   The result of (v.x * s, v.y * s, v.z * s, v.w * z)
+ */
+vector4_t vector4_scale(vector4_t v, fixed_t s) {
+    vector4_t result;
+
+    result.x = fixed_mul(v.x, s);
+    result.y = fixed_mul(v.y, s);
+    result.z = fixed_mul(v.z, s);
+    result.w = fixed_mul(v.w, s);
 
     return result;
 }

@@ -10,7 +10,7 @@
 #include "tmath.h"
 
 /* Test integer conversion */
-int test_int_conversion(void) {
+void test_int_conversion(void) {
     int original = 42;
     fixed_t fixed = fixed_from_int(original);
     int result = fixed_to_int(fixed);
@@ -19,14 +19,14 @@ int test_int_conversion(void) {
 }
 
 /* Test zero conversion */
-int test_zero(void) {
+void test_zero(void) {
     fixed_t fixed = fixed_from_int(0);
 
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(fixed));
 }
 
 /* Test negative conversion */
-int test_negative(void) {
+void test_negative(void) {
     int original = -42;
     fixed_t fixed = fixed_from_int(original);
     int result = fixed_to_int(fixed);
@@ -35,7 +35,7 @@ int test_negative(void) {
 }
 
 /* Test float conversion (approximate) */
-int test_float_conversion(void) {
+void test_float_conversion(void) {
     float original = 3.14159f;
     fixed_t fixed = fixed_from_float(original);
     float result = fixed_to_float(fixed);
@@ -44,7 +44,7 @@ int test_float_conversion(void) {
 }
 
 /* Test float conversion with negative numbers */
-int test_negative_float(void) {
+void test_negative_float(void) {
     float original = -3.14159f;
     fixed_t fixed = fixed_from_float(original);
     float result = fixed_to_float(fixed);
@@ -53,7 +53,7 @@ int test_negative_float(void) {
 }
 
 /* Test addition of positive numbers */
-int test_addition_positive(void) {
+void test_addition_positive(void) {
     fixed_t a = fixed_from_int(5);
     fixed_t b = fixed_from_int(3);
     fixed_t result = fixed_add(a, b);
@@ -62,7 +62,7 @@ int test_addition_positive(void) {
 }
 
 /* Test addition with fractional components */
-int test_addition_fractional(void) {
+void test_addition_fractional(void) {
     fixed_t a = fixed_from_float(3.5f);
     fixed_t b = fixed_from_float(2.25f);
     fixed_t result = fixed_add(a, b);
@@ -71,7 +71,7 @@ int test_addition_fractional(void) {
 }
 
 /* Test subtraction of positive numbers */
-int test_subtraction_positive(void) {
+void test_subtraction_positive(void) {
     fixed_t a = fixed_from_int(5);
     fixed_t b = fixed_from_int(3);
     fixed_t result = fixed_sub(a, b);
@@ -80,7 +80,7 @@ int test_subtraction_positive(void) {
 }
 
 /* Test subtraction with negative result */
-int test_subtraction_negative_result(void) {
+void test_subtraction_negative_result(void) {
     fixed_t a = fixed_from_int(3);
     fixed_t b = fixed_from_int(5);
     fixed_t result = fixed_sub(a, b);
@@ -89,7 +89,7 @@ int test_subtraction_negative_result(void) {
 }
 
 /* Test subtraction with fractional components */
-int test_subtraction_fractional(void) {
+void test_subtraction_fractional(void) {
     fixed_t a = fixed_from_float(5.5f);
     fixed_t b = fixed_from_float(2.25f);
     fixed_t result = fixed_sub(a, b);
@@ -98,7 +98,7 @@ int test_subtraction_fractional(void) {
 }
 
 /* Test multiplication of integers */
-int test_multiplication_int(void) {
+void test_multiplication_int(void) {
     fixed_t a = fixed_from_int(3);
     fixed_t b = fixed_from_int(4);
     fixed_t result = fixed_mul(a, b);
@@ -107,7 +107,7 @@ int test_multiplication_int(void) {
 }
 
 /* Test multiplication of integers */
-int test_multiplication_frac(void) {
+void test_multiplication_frac(void) {
     fixed_t a = fixed_from_float(2.5f);
     fixed_t b = fixed_from_float(1.5f);
     fixed_t result = fixed_mul(a, b);
@@ -116,7 +116,7 @@ int test_multiplication_frac(void) {
 }
 
 /* Test multiplication by zero */
-int test_multiplication_zero(void) {
+void test_multiplication_zero(void) {
     fixed_t a = fixed_from_int(123);
     fixed_t b = fixed_from_int(0);
     fixed_t result = fixed_mul(a, b);
@@ -125,7 +125,7 @@ int test_multiplication_zero(void) {
 }
 
 /* Test multiplication with negative numbers */
-int test_multiplication_negative(void) {
+void test_multiplication_negative(void) {
     fixed_t a = fixed_from_int(-3);
     fixed_t b = fixed_from_int(4);
     fixed_t result = fixed_mul(a, b);
@@ -134,7 +134,7 @@ int test_multiplication_negative(void) {
 }
 
 /* Test multiplication with small fractions */
-int test_multiplication_small_frac(void) {
+void test_multiplication_small_frac(void) {
     fixed_t a = fixed_from_float(0.1f);
     fixed_t b = fixed_from_float(0.2f);
     fixed_t result = fixed_mul(a, b);
@@ -143,7 +143,7 @@ int test_multiplication_small_frac(void) {
 }
 
 /* Test basic division */
-int test_division_basic(void) {
+void test_division_basic(void) {
     fixed_t a = fixed_from_int(10);
     fixed_t b = fixed_from_int(2);
     fixed_t result = fixed_div(a, b);
@@ -152,7 +152,7 @@ int test_division_basic(void) {
 }
 
 /* Test division with fractions */
-int test_division_frac(void) {
+void test_division_frac(void) {
     fixed_t a = fixed_from_float(5.0f);
     fixed_t b = fixed_from_float(2.0f);
     fixed_t result = fixed_div(a, b);
@@ -161,7 +161,7 @@ int test_division_frac(void) {
 }
 
 /* Test division by zero */
-int test_division_by_zero(void) {
+void test_division_by_zero(void) {
     fixed_t a = fixed_from_int(123);
     fixed_t b = fixed_from_int(0);
     fixed_t result = fixed_div(a, b);
@@ -170,7 +170,7 @@ int test_division_by_zero(void) {
 }
 
 /* Test division of zero */
-int test_division_of_zero(void) {
+void test_division_of_zero(void) {
     fixed_t a = fixed_from_int(0);
     fixed_t b = fixed_from_int(123);
     fixed_t result = fixed_div(a, b);
@@ -179,7 +179,7 @@ int test_division_of_zero(void) {
 }
 
 /* Test division with negative numbers */
-int test_division_negative(void) {
+void test_division_negative(void) {
     fixed_t a = fixed_from_int(-12);
     fixed_t b = fixed_from_int(4);
     fixed_t result = fixed_div(a, b);
@@ -188,7 +188,7 @@ int test_division_negative(void) {
 }
 
 /* Test division with small fractions */
-int test_division_small_frac(void) {
+void test_division_small_frac(void) {
     fixed_t a = fixed_from_float(0.02f);
     fixed_t b = fixed_from_float(0.1f);
     fixed_t result = fixed_div(a, b);
@@ -197,7 +197,7 @@ int test_division_small_frac(void) {
 }
 
 /* Test absolute value of a positive number */
-int test_abs_positive(void) {
+void test_abs_positive(void) {
     fixed_t x = fixed_from_int(5);
     fixed_t result = fixed_abs(x);
 
@@ -205,7 +205,7 @@ int test_abs_positive(void) {
 }
 
 /* Test absolute value of a negative number */
-int test_abs_negative(void) {
+void test_abs_negative(void) {
     fixed_t x = fixed_from_int(-3);
     fixed_t result = fixed_abs(x);
 
@@ -213,7 +213,7 @@ int test_abs_negative(void) {
 }
 
 /* Test absolute value of zero */
-int test_abs_zero(void) {
+void test_abs_zero(void) {
     fixed_t x = fixed_from_int(0);
     fixed_t result = fixed_abs(x);
 
@@ -221,7 +221,7 @@ int test_abs_zero(void) {
 }
 
 /* Test absolute value of a fraction */
-int test_abs_fraction(void) {
+void test_abs_fraction(void) {
     fixed_t x = fixed_from_float(-1.2f);
     fixed_t result = fixed_abs(x);
 
@@ -229,63 +229,63 @@ int test_abs_fraction(void) {
 }
 
 /* Test sign of positive number */
-int test_sign_positive(void) {
+void test_sign_positive(void) {
     fixed_t x = fixed_from_int(42);
 
     TEST_ASSERT_EQUAL_INT(1, fixed_sign(x));
 }
 
 /* Test sign of negative number */
-int test_sign_negative(void) {
+void test_sign_negative(void) {
     fixed_t x = fixed_from_int(-42);
 
     TEST_ASSERT_EQUAL_INT(-1, fixed_sign(x));
 }
 
 /* Test sign of zero */
-int test_sign_zero(void) {
+void test_sign_zero(void) {
     fixed_t x = fixed_from_int(0);
 
     TEST_ASSERT_EQUAL_INT(0, fixed_sign(x));
 }
 
 /* Test sign of small positive fraction */
-int test_sign_small_positive(void) {
+void test_sign_small_positive(void) {
     fixed_t x = fixed_from_float(0.0001f);
 
     TEST_ASSERT_EQUAL_INT(1, fixed_sign(x));
 }
 
 /* Test sign of small negative fraction */
-int test_sign_small_negative(void) {
+void test_sign_small_negative(void) {
     fixed_t x = fixed_from_float(-0.0001f);
 
     TEST_ASSERT_EQUAL_INT(-1, fixed_sign(x));
 }
 
 /* Test negative detection of positive number */
-int test_is_neg_positive(void) {
+void test_is_neg_positive(void) {
     fixed_t x = fixed_from_int(42);
 
     TEST_ASSERT_EQUAL_INT(0, fixed_is_neg(x));
 }
 
 /* Test negative detection of negative number */
-int test_is_neg_negative(void) {
+void test_is_neg_negative(void) {
     fixed_t x = fixed_from_int(-42);
 
     TEST_ASSERT_EQUAL_INT(1, fixed_is_neg(x));
 }
 
 /* Test negative detection of zero */
-int test_is_neg_zero(void) {
+void test_is_neg_zero(void) {
     fixed_t x = fixed_from_int(0);
 
     TEST_ASSERT_EQUAL_INT(0, fixed_is_neg(x));
 }
 
 /* Test negation of positive number */
-int test_neg_positive(void) {
+void test_neg_positive(void) {
     fixed_t x = fixed_from_int(42);
     fixed_t result = fixed_neg(x);
 
@@ -293,7 +293,7 @@ int test_neg_positive(void) {
 }
 
 /* Test negation of negative number */
-int test_neg_negative(void) {
+void test_neg_negative(void) {
     fixed_t x = fixed_from_int(-42);
     fixed_t result = fixed_neg(x);
 
@@ -301,7 +301,7 @@ int test_neg_negative(void) {
 }
 
 /* Test negation of zero */
-int test_neg_zero(void) {
+void test_neg_zero(void) {
     fixed_t x = fixed_from_int(0);
     fixed_t result = fixed_neg(x);
 
@@ -309,7 +309,7 @@ int test_neg_zero(void) {
 }
 
 /* Test negation with fractions */
-int test_neg_fraction(void) {
+void test_neg_fraction(void) {
     fixed_t x = fixed_from_float(3.14159f);
     fixed_t result = fixed_neg(x);
 
@@ -317,7 +317,7 @@ int test_neg_fraction(void) {
 }
 
 /* Test negation with small fractions */
-int test_neg_small_fraction(void) {
+void test_neg_small_fraction(void) {
     fixed_t x = fixed_from_float(0.0001f);
     fixed_t result = fixed_neg(x);
 
@@ -325,7 +325,7 @@ int test_neg_small_fraction(void) {
 }
 
 /* Test square root of perfect square */
-int test_sqrt_perfect(void) {
+void test_sqrt_perfect(void) {
     fixed_t x = fixed_from_int(16);
     fixed_t result = fixed_sqrt(x);
 
@@ -333,21 +333,21 @@ int test_sqrt_perfect(void) {
 }
 
 /* Test square root of zero */
-int test_sqrt_zero(void) {
+void test_sqrt_zero(void) {
     fixed_t result = fixed_sqrt(FIXED_ZERO);
 
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
 }
 
 /* Test square root of one */
-int test_sqrt_one(void) {
+void test_sqrt_one(void) {
     fixed_t result = fixed_sqrt(FIXED_ONE);
 
     TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result));
 }
 
 /* Test square root of non-perfect square */
-int test_sqrt_non_perfect(void) {
+void test_sqrt_non_perfect(void) {
     fixed_t x = fixed_from_int(2);
     fixed_t result = fixed_sqrt(x);
 
@@ -355,7 +355,7 @@ int test_sqrt_non_perfect(void) {
 }
 
 /* Test square root of negative */
-int test_sqrt_negative(void) {
+void test_sqrt_negative(void) {
     fixed_t x = fixed_from_int(-16);
     fixed_t result = fixed_sqrt(x);
 

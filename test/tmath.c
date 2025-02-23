@@ -11,6 +11,7 @@
 #include <string.h>
 
 const char *output_sep = "------------------------------\n";
+unsigned int test_failed = FALSE;
 
 /*
  * test_init: Initialize the test results structure
@@ -60,12 +61,16 @@ void test_end_suite(test_results_t *results) {
  *  test_func   - Function pointer to the test to run
  *  test_name   - Name of the test being run
  */
-void test_run(test_results_t *results, int (*test_func)(void), const char *test_name) {
+void test_run(test_results_t *results, void (*test_func)(void), const char *test_name) {
     printf("Running test: %s...", test_name);
+
+    test_failed = FALSE;
 
     results->tests_run++;
 
-    if (test_func()) {
+    test_func();
+
+    if (!test_failed) {
         results->tests_passed++;
         printf("PASSED\n");
     } else {
@@ -82,6 +87,8 @@ void test_run(test_results_t *results, int (*test_func)(void), const char *test_
 void test_fail(const char *message) {
     printf("FAILED\n");
     printf("  %s\n", message);
+
+    test_failed = TRUE;
 }
 
 /*
@@ -94,6 +101,8 @@ void test_fail(const char *message) {
 void test_fail_int(int expected, int actual) {
     printf("FAILED\n");
     printf("  Expected %d, got %d\n", expected, actual);
+
+    test_failed = TRUE;
 }
 
 /*
@@ -106,6 +115,8 @@ void test_fail_int(int expected, int actual) {
 void test_fail_float(float expected, float actual) {
     printf("FAILED\n");
     printf("  Expected %f, got %f\n", expected, actual);
+
+    test_failed = TRUE;
 }
 
 /*

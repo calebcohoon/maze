@@ -8,20 +8,20 @@
 
 #include "tmath.h"
 
-int test_basic_assertion(void) {
+void test_basic_assertion(void) {
     TEST_ASSERT("True", 1 == 1);
 }
 
 /* Sample test functions */
-int test_basic_addition(void) {
+void test_basic_addition(void) {
     TEST_ASSERT_EQUAL_INT(4, 2 + 2);
 }
 
-int test_basic_multiplication(void) {
+void test_basic_multiplication(void) {
     TEST_ASSERT_EQUAL_INT(6, 2 * 3);
 }
 
-int test_float_operations(void) {
+void test_float_operations(void) {
     TEST_ASSERT_EQUAL_FLOAT(0.5f, 1.0f / 2.0f, 0.001f);
 }
 
