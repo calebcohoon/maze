@@ -4,15 +4,12 @@
  * 16.16 fixed-point number system implementation
  * Uses 32-bit integers with 16 bits for the integer part
  * and 16 bits for the fractional part.
- *
- * Range -32768.0 to +32767.99998474121094
- * Precision: 0.0000152587890625 (1/65536)
  */
 
 #ifndef FIXED_H
 #define FIXED_H
 
-/* Type definition for fixed-point numbers */
+/* Type definitions */
 typedef long fixed_t;
 
 /* Constants */
@@ -24,12 +21,8 @@ typedef long fixed_t;
 #define FIXED_DIV_ZERO ((fixed_t) 0x7FFFFFFF)    /* Error value for div by zero */
 #define FIXED_MAX      ((fixed_t) 0x7FFF0000)    /* Maximum valid fixed-point value */
 #define FIXED_MIN      ((fixed_t) (-0x80000000)) /* Minimum valid fixed-point value*/
-#define FIXED_MAX_INT  32767                     /* Maximum valid integer component (32767) */
-#define FIXED_MIN_INT  (-32768)                  /* Minimum valid integer component (-32768) */
-
-/* Conversion macros */
-#define INT_TO_FIXED(x) ((fixed_t) (x) << FIXED_SHIFT)
-#define FIXED_TO_INT(x) ((int) ((x) >> FIXED_SHIFT))
+#define FIXED_MAX_INT  32767                     /* Maximum valid integer component */
+#define FIXED_MIN_INT  (-32768)                  /* Minimum valid integer component */
 
 /* Function prototypes */
 fixed_t fixed_from_int(int n);

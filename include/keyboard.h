@@ -9,7 +9,7 @@
 #define KEYBOARD_H
 
 /* Keyboard constants */
-#define KEYBOARD_INT    0x09 /* IRQ1 - Keyboard interrupt */
+#define KEYBOARD_INT    0x09 /* IRQ1 keyboard interrupt */
 #define KEYBOARD_PORT   0x60 /* Keyboard data port */
 #define KEYBOARD_STATUS 0x64 /* Keyboard status port */
 #define MAX_SCANCODES   123  /* Number of scan code to track */

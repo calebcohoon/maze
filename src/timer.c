@@ -52,7 +52,7 @@ void timer_init(void) {
  * Restores original interrupt handler and timer frequency
  */
 void timer_shutdown(void) {
-    /* Restore original timer frequency (18.2 Hz) */
+    /* Restore original timer frequency */
     outp(TIMER_CONTROL, 0x36);
     outp(TIMER_PORT, 0);
     outp(TIMER_PORT, 0);

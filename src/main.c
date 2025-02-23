@@ -1,6 +1,6 @@
-#include <conio.h> /* For kbhit() */
-#include <dos.h>   /* For int386() and union REGS */
-#include <string.h>/* For memset() */
+#include <conio.h>
+#include <dos.h>
+#include <string.h>
 
 #include "keyboard.h"
 #include "timer.h"
@@ -59,7 +59,7 @@ int main() {
     game_init(&game_state);
     keyboard_init();
 
-    /* Enter mode 13h (320x200 256-color) */
+    /* Enter mode 13h (320x200 256 color) */
     set_mode(MODE_13H);
 
     while (game_state.is_running) {

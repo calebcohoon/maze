@@ -14,10 +14,6 @@
  *
  * Returns:
  *   Fixed-point representation of the integer
- *
- * Notes:
- *   - Shifts the integer left by FIXED_SHIFT (16) bits
- *   - Same as multiplying by 2^16
  */
 fixed_t fixed_from_int(int n) {
     /* Check if input is too large or small */
@@ -40,10 +36,6 @@ fixed_t fixed_from_int(int n) {
  *
  * Returns:
  *   Integer part of the fixed-point number
- *
- * Notes:
- *   - Shifts right by FIXED_SHIFT (16) bits to remove fractional part
- *   - Truncates towards zero
  */
 int fixed_to_int(fixed_t x) {
     return (int) (x >> FIXED_SHIFT);
@@ -57,10 +49,6 @@ int fixed_to_int(fixed_t x) {
  *
  * Returns:
  *   Fixed-point representation of the float
- *
- * Notes:
- *   - Multiplies by 2^16 and rounds to nearest fixed-point value
- *   - Use with caution in final build as floating-point may not be available
  */
 fixed_t fixed_from_float(float f) {
     return (fixed_t) (f * (float) FIXED_ONE + (f >= 0 ? 0.5f : -0.5f));
@@ -74,10 +62,6 @@ fixed_t fixed_from_float(float f) {
  *
  * Returns:
  *   Float representation of the fixed-point number
- *
- * Notes:
- *   - Divides by 2^16 to convert to floating-point
- *   - Use with caution in final build as floating-point may not be available
  */
 float fixed_to_float(fixed_t x) {
     return (float) x / (float) FIXED_ONE;
@@ -91,11 +75,6 @@ float fixed_to_float(fixed_t x) {
  *
  * Returns:
  *   Result of a + b
- *
- * Notes:
- *   - Direct integer addition works because fixed-point numbers
- *     have the same scaling factor (2^16)
- *   - No adjustment needed after addition
  */
 fixed_t fixed_add(fixed_t a, fixed_t b) {
     return a + b;
@@ -109,30 +88,19 @@ fixed_t fixed_add(fixed_t a, fixed_t b) {
  *
  * Returns:
  *   Result of a - b
- *
- * Notes:
- *   - Direct integer subtraction works because fixed-point numbers
- *     have the same scaling factor (2^16)
- *   - No adjustment needed after subtraction
  */
 fixed_t fixed_sub(fixed_t a, fixed_t b) {
     return a - b;
 }
 
 /*
- * fixed_mul: Multiply two fixed-point numbers using 486 assembly
+ * fixed_mul: Multiply two fixed-point numbers
  *
  * Parameters:
  *   a, b - Fixed-point values to multiply
  *
  * Returns:
  *   Result of a * b
- *
- * Notes:
- *   - Uses IMUL instruction to get full 64-bit result, then
- *     shifts right by 16 to adjust back to fixed-point format
- *   - May overflow if result exceeds 32767.99998474121094
- *   - May underflow if result is less than -32768.0
  */
 fixed_t fixed_mul(fixed_t a, fixed_t b) {
     fixed_t result;
@@ -148,7 +116,7 @@ fixed_t fixed_mul(fixed_t a, fixed_t b) {
 }
 
 /*
- * fixed_div: Divide two fixed-point numbers using 486 assembly
+ * fixed_div: Divide two fixed-point numbers
  *
  * Parameters:
  *   a - Dividend (fixed-point value)
@@ -157,12 +125,6 @@ fixed_t fixed_mul(fixed_t a, fixed_t b) {
  * Returns:
  *   Result of a / b
  *   Returns FIXED_DIV_ZERO if b is zero
- *
- * Notes:
- *   - Uses IDIV instruction with pre-scaling
- *   - Pre-shifts dividend by 16 to maintain precision
- *   - May overflow if result exceeds 32767.99998474121094
- *   - May underflow if result is less than -32768.0
  */
 fixed_t fixed_div(fixed_t a, fixed_t b) {
     fixed_t result;
@@ -193,9 +155,6 @@ fixed_t fixed_div(fixed_t a, fixed_t b) {
  *
  * Returns:
  *   Result of |x|
- *
- * Notes:
- *   - Uses conditional jump-free 486 assembly for efficiency
  */
 fixed_t fixed_abs(fixed_t x) {
     fixed_t result;
@@ -219,9 +178,6 @@ fixed_t fixed_abs(fixed_t x) {
  *
  * Returns:
  *   -1 if negative or 1 if positive or 0 if zero
- *
- * Notes:
- *   - Uses branchless 486 assembly for efficiency
  */
 int fixed_sign(fixed_t x) {
     int result;
@@ -251,9 +207,6 @@ int fixed_sign(fixed_t x) {
  *
  * Returns:
  *   1 if negative or 0 if positive
- *
- * Notes:
- *   - Uses single test of high bit
  */
 int fixed_is_neg(fixed_t x) {
     return (x < 0) ? 1 : 0;
@@ -267,9 +220,6 @@ int fixed_is_neg(fixed_t x) {
  *
  * Returns:
  *   Negated value of fixed-point number
- *
- * Notes:
- *   - Uses optimized 486 assembly
  */
 fixed_t fixed_neg(fixed_t x) {
     fixed_t result;
@@ -292,11 +242,6 @@ fixed_t fixed_neg(fixed_t x) {
  * Returns:
  *   Square root of x in fixed-point format
  *   Returns 0 if input is negative
- *
- * Notes:
- *   - Uses Newton's method: y = (y + x/y) / 2
- *   - Typeically converges in 4-5 iterations
- *   - Optimized for 486 instruction set
  */
 fixed_t fixed_sqrt(fixed_t x) {
     fixed_t result;
