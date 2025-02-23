@@ -40,17 +40,17 @@
 
 2. Vector Mathematics
    a. Vector Types
-      - Define 2D vector structure
-      - Define 3D vector structure
-      - Define 4D vector structure (for homogeneous coordinates)
-      - Create vector initialization functions
-      - Add vector validation tests
+      - ~~Define 2D vector structure~~
+      - ~~Define 3D vector structure~~
+      - ~~Define 4D vector structure (for homogeneous coordinates)~~
+      - ~~Create vector initialization functions~~
+      - ~~Add vector validation tests~~
    
    b. Basic Vector Operations
-      - Vector addition
-      - Vector subtraction
-      - Scalar multiplication
-      - Vector tests suite
+      - ~~Vector addition~~
+      - ~~Vector subtraction~~
+      - ~~Scalar multiplication~~
+      - ~~Vector tests suite~~
    
    c. Advanced Vector Operations
       - Dot product
