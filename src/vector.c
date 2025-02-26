@@ -239,6 +239,27 @@ fixed_t vector3_dot(vector3_t a, vector3_t b) {
 }
 
 /*
+ * vector3_cross: Calculate cross product of two 3D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The cross product, a vector perpendicular to both a and b
+ */
+vector3_t vector3_cross(vector3_t a, vector3_t b) {
+    vector3_t result;
+
+    /* Calculate components using the cross product formula */
+    result.x = fixed_sub(fixed_mul(a.y, b.z), fixed_mul(a.z, b.y));
+    result.y = fixed_sub(fixed_mul(a.z, b.x), fixed_mul(a.x, b.z));
+    result.z = fixed_sub(fixed_mul(a.x, b.y), fixed_mul(a.y, b.x));
+
+    return result;
+}
+
+/*
  * vector4_init: Initialize a 4D vector with given components
  *
  * Parameters:

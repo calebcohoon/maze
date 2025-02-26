@@ -112,6 +112,48 @@ void test_vector3_dot(void) {
     TEST_ASSERT_EQUAL_INT(32, fixed_to_int(result));
 }
 
+void test_vector3_cross(void) {
+    vector3_t a = vector3_init_int(2, 3, 4);
+    vector3_t b = vector3_init_int(5, 6, 7);
+    vector3_t result = vector3_cross(a, b);
+
+    TEST_ASSERT_EQUAL_INT(-3, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(-3, fixed_to_int(result.z));
+}
+
+void test_vector3_cross_anticommutative(void) {
+    vector3_t a = vector3_init_int(1, 2, 3);
+    vector3_t b = vector3_init_int(4, 5, 6);
+    vector3_t ab_cross = vector3_cross(a, b);
+    vector3_t ba_cross = vector3_cross(b, a);
+
+    TEST_ASSERT_EQUAL_INT(fixed_to_int(ab_cross.x), fixed_to_int(fixed_neg(ba_cross.x)));
+    TEST_ASSERT_EQUAL_INT(fixed_to_int(ab_cross.y), fixed_to_int(fixed_neg(ba_cross.y)));
+    TEST_ASSERT_EQUAL_INT(fixed_to_int(ab_cross.z), fixed_to_int(fixed_neg(ba_cross.z)));
+}
+
+void test_vector3_cross_basis(void) {
+    vector3_t x_axis = vector3_init_int(1, 0, 0);
+    vector3_t y_axis = vector3_init_int(0, 1, 0);
+    vector3_t z_axis = vector3_init_int(0, 0, 1);
+    vector3_t xy_cross = vector3_cross(x_axis, y_axis);
+    vector3_t yz_cross = vector3_cross(y_axis, z_axis);
+    vector3_t zx_cross = vector3_cross(z_axis, x_axis);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(xy_cross.x));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(xy_cross.y));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(xy_cross.z));
+
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(yz_cross.x));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(yz_cross.y));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(yz_cross.z));
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(zx_cross.x));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(zx_cross.y));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(zx_cross.z));
+}
+
 /* Vector4 tests */
 void test_vector4_init(void) {
     vector4_t v = vector4_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3, FIXED_ONE * 4);
@@ -205,6 +247,9 @@ int main(void) {
     test_run(&results, test_vector3_sub, "Vector3 Subtraction");
     test_run(&results, test_vector3_scale, "Vector3 Scalar Multiplication");
     test_run(&results, test_vector3_dot, "Vector3 Dot Product");
+    test_run(&results, test_vector3_cross, "Vector3 Cross Product");
+    test_run(&results, test_vector3_cross_anticommutative, "Vector3 Cross Anti-Commutative");
+    test_run(&results, test_vector3_cross_basis, "Vector3 Cross Basis");
     test_end_suite(&results);
 
     /* Run Vector4 tests */

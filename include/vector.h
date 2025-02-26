@@ -44,6 +44,7 @@ vector3_t vector3_add(vector3_t a, vector3_t b);
 vector3_t vector3_sub(vector3_t a, vector3_t b);
 vector3_t vector3_scale(vector3_t v, fixed_t s);
 fixed_t vector3_dot(vector3_t a, vector3_t b);
+vector3_t vector3_cross(vector3_t a, vector3_t b);
 
 /* Vector4 function prototypes */
 vector4_t vector4_init(fixed_t x, fixed_t y, fixed_t z, fixed_t w);
