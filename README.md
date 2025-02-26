@@ -54,7 +54,7 @@
    
    c. Advanced Vector Operations
       - ~~Dot product~~
-      - Cross product
+      - ~~Cross product~~
       - Vector normalization
       - Vector length calculation
       - Angle between vectors
