@@ -119,6 +119,60 @@ fixed_t vector2_dot(vector2_t a, vector2_t b) {
 }
 
 /*
+ * vector2_length_squared: Calculate squared length of a 2D vector
+ *
+ * Parameters:
+ *   v - Vector to calculate squared length of
+ *
+ * Returns:
+ *   Squared length of the vector in fixed-point format
+ *
+ * Notes:
+ *   - More efficient than calculating actual length when only comparing distances
+ */
+fixed_t vector2_length_squared(vector2_t v) {
+    return vector2_dot(v, v);
+}
+
+/*
+ * vector2_length: Calculate length of a 2D vector
+ *
+ * Parameters:
+ *   v - Vector to calculate length of
+ *
+ * Returns:
+ *   Length of the vector in fixed-point format
+ */
+fixed_t vector2_length(vector2_t v) {
+    return fixed_sqrt(vector2_length_squared(v));
+}
+
+/*
+ * vector2_normalize: Create a unit vector in the same direction
+ *
+ * Parameters:
+ *   v - Vector to normalize
+ *
+ * Returns:
+ *   Normalized vector with length 1 in the same direction
+ */
+vector2_t vector2_normalize(vector2_t v) {
+    vector2_t result;
+    fixed_t length = vector2_length(v);
+
+    /* Avoid division by zero */
+    if (length == 0) {
+        return vector2_init(FIXED_ZERO, FIXED_ZERO);
+    }
+
+    /* Divide each component by the length */
+    result.x = fixed_div(v.x, length);
+    result.y = fixed_div(v.y, length);
+
+    return result;
+}
+
+/*
  * vector3_init: Initialize a 3D vector with given components
  *
  * Parameters:
@@ -255,6 +309,58 @@ vector3_t vector3_cross(vector3_t a, vector3_t b) {
     result.x = fixed_sub(fixed_mul(a.y, b.z), fixed_mul(a.z, b.y));
     result.y = fixed_sub(fixed_mul(a.z, b.x), fixed_mul(a.x, b.z));
     result.z = fixed_sub(fixed_mul(a.x, b.y), fixed_mul(a.y, b.x));
+
+    return result;
+}
+
+/*
+ * vector3_length_squared: Calculate squared length of a 3D vector
+ *
+ * Parameters:
+ *   v - Vector to calculate squared length of
+ *
+ * Returns:
+ *   Squared length of the vector in fixed-point format
+ */
+fixed_t vector3_length_squared(vector3_t v) {
+    return vector3_dot(v, v);
+}
+
+/*
+ * vector3_length: Calculate length of a 3D vector
+ *
+ * Parameters:
+ *   v - Vector to calculate length of
+ *
+ * Returns:
+ *   Length of the vector in fixed-point format
+ */
+fixed_t vector3_length(vector3_t v) {
+    return fixed_sqrt(vector3_length_squared(v));
+}
+
+/*
+ * vector3_normalize: Create a unit vector in the same direction
+ *
+ * Parameters:
+ *   v - Vector to normalize
+ *
+ * Returns:
+ *   Normalized vector with length 1 in the same direction
+ */
+vector3_t vector3_normalize(vector3_t v) {
+    vector3_t result;
+    fixed_t length = vector3_length(v);
+
+    /* Avoid division by zero */
+    if (length == 0) {
+        return vector3_init(FIXED_ZERO, FIXED_ZERO, FIXED_ZERO);
+    }
+
+    /* Divide each component by the length */
+    result.x = fixed_div(v.x, length);
+    result.y = fixed_div(v.y, length);
+    result.z = fixed_div(v.z, length);
 
     return result;
 }
@@ -406,4 +512,57 @@ fixed_t vector4_dot(vector4_t a, vector4_t b) {
     fixed_t w_prod = fixed_mul(a.w, b.w);
 
     return fixed_add(fixed_add(fixed_add(x_prod, y_prod), z_prod), w_prod);
+}
+
+/*
+ * vector4_length_squared: Calculate squared length of a 4D vector
+ *
+ * Parameters:
+ *   v - Vector to calculate squared length of
+ *
+ * Returns:
+ *   Squared length of the vector in fixed-point format
+ */
+fixed_t vector4_length_squared(vector4_t v) {
+    return vector4_dot(v, v);
+}
+
+/*
+ * vector4_length: Calculate length of a 4D vector
+ *
+ * Parameters:
+ *   v - Vector to calculate length of
+ *
+ * Returns:
+ *   Length of the vector in fixed-point format
+ */
+fixed_t vector4_length(vector4_t v) {
+    return fixed_sqrt(vector4_length_squared(v));
+}
+
+/*
+ * vector4_normalize: Create a unit vector in the same direction
+ *
+ * Parameters:
+ *   v - Vector to normalize
+ *
+ * Returns:
+ *   Normalized vector with length 1 in the same direction
+ */
+vector4_t vector4_normalize(vector4_t v) {
+    vector4_t result;
+    fixed_t length = vector4_length(v);
+
+    /* Avoid division by zero */
+    if (length == 0) {
+        return vector4_init(FIXED_ZERO, FIXED_ZERO, FIXED_ZERO, FIXED_ZERO);
+    }
+
+    /* Divide each component by the length */
+    result.x = fixed_div(v.x, length);
+    result.y = fixed_div(v.y, length);
+    result.z = fixed_div(v.z, length);
+    result.w = fixed_div(v.w, length);
+
+    return result;
 }

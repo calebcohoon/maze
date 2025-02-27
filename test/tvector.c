@@ -58,6 +58,33 @@ void test_vector2_dot(void) {
     TEST_ASSERT_EQUAL_INT(23, fixed_to_int(result));
 }
 
+/* Test 2D vector length squared */
+void test_vector2_length_squared(void) {
+    vector2_t v = vector2_init_int(3, 4);
+    fixed_t result = vector2_length_squared(v);
+
+    TEST_ASSERT_EQUAL_INT(25, fixed_to_int(result));
+}
+
+/* Test 2D vector length */
+void test_vector2_length(void) {
+    vector2_t v = vector2_init_int(3, 4);
+    fixed_t result = vector2_length(v);
+
+    TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result));
+}
+
+/* Test 2D vector normalization */
+void test_vector2_normalize(void) {
+    vector2_t v = vector2_init_int(3, 4);
+    vector2_t result = vector2_normalize(v);
+    fixed_t length = vector2_length(result);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0f, fixed_to_float(length), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(0.6f, fixed_to_float(result.x), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(0.8f, fixed_to_float(result.y), 0.01f);
+}
+
 /* Vector3 tests */
 void test_vector3_init(void) {
     vector3_t v = vector3_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3);
@@ -154,6 +181,34 @@ void test_vector3_cross_basis(void) {
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(zx_cross.z));
 }
 
+/* Test 3D vector length squared */
+void test_vector3_length_squared(void) {
+    vector3_t v = vector3_init_int(2, 3, 6);
+    fixed_t result = vector3_length_squared(v);
+
+    TEST_ASSERT_EQUAL_INT(49, fixed_to_int(result));
+}
+
+/* Test 3D vector length */
+void test_vector3_length(void) {
+    vector3_t v = vector3_init_int(3, 4, 12);
+    fixed_t result = vector3_length(v);
+
+    TEST_ASSERT_EQUAL_INT(13, fixed_to_int(result));
+}
+
+/* Test 3D vector normalization */
+void test_vector3_normalize(void) {
+    vector3_t v = vector3_init_int(3, 4, 12);
+    vector3_t result = vector3_normalize(v);
+    fixed_t length = vector3_length(result);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0f, fixed_to_float(length), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(3.0f / 13.0f, fixed_to_float(result.x), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(4.0f / 13.0f, fixed_to_float(result.y), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(12.0f / 13.0f, fixed_to_float(result.z), 0.01f);
+}
+
 /* Vector4 tests */
 void test_vector4_init(void) {
     vector4_t v = vector4_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3, FIXED_ONE * 4);
@@ -223,6 +278,51 @@ void test_vector4_dot(void) {
     TEST_ASSERT_EQUAL_INT(70, fixed_to_int(result));
 }
 
+/* Test 4D vector length squared */
+void test_vector4_length_squared(void) {
+    vector4_t v = vector4_init_int(1, 2, 2, 3);
+    fixed_t result = vector4_length_squared(v);
+
+    TEST_ASSERT_EQUAL_INT(18, fixed_to_int(result));
+}
+
+/* Test 4D vector length */
+void test_vector4_length(void) {
+    vector4_t v = vector4_init_int(1, 2, 3, 5);
+    fixed_t result = vector4_length(v);
+
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result));
+}
+
+/* Test 4D vector normalization */
+void test_vector4_normalize(void) {
+    vector4_t v = vector4_init_int(1, 3, 4, 12);
+    vector4_t result = vector4_normalize(v);
+    fixed_t length = vector4_length(result);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0f, fixed_to_float(length), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(1.0f / 13.0f, fixed_to_float(result.x), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(3.0f / 13.0f, fixed_to_float(result.y), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(4.0f / 13.0f, fixed_to_float(result.z), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(12.0f / 13.0f, fixed_to_float(result.w), 0.01f);
+}
+
+/* Special case - Test normalization with zero vector */
+void test_vector_normalize_zero(void) {
+    vector2_t v2 = vector2_init(FIXED_ZERO, FIXED_ZERO);
+    vector3_t v3 = vector3_init(FIXED_ZERO, FIXED_ZERO, FIXED_ZERO);
+    vector2_t result2 = vector2_normalize(v2);
+    vector3_t result3 = vector3_normalize(v3);
+
+    /* Should return zero vectors */
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result2.x));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result2.y));
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result3.x));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result3.y));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result3.z));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -237,6 +337,9 @@ int main(void) {
     test_run(&results, test_vector2_sub, "Vector2 Subtraction");
     test_run(&results, test_vector2_scale, "Vector2 Scalar Multiplication");
     test_run(&results, test_vector2_dot, "Vector2 Dot Product");
+    test_run(&results, test_vector2_length_squared, "Vector2 Length Squared");
+    test_run(&results, test_vector2_length, "Vector2 Length");
+    test_run(&results, test_vector2_normalize, "Vector2 Normalization");
     test_end_suite(&results);
 
     /* Run Vector3 tests */
@@ -250,6 +353,9 @@ int main(void) {
     test_run(&results, test_vector3_cross, "Vector3 Cross Product");
     test_run(&results, test_vector3_cross_anticommutative, "Vector3 Cross Anti-Commutative");
     test_run(&results, test_vector3_cross_basis, "Vector3 Cross Basis");
+    test_run(&results, test_vector3_length_squared, "Vector3 Length Squared");
+    test_run(&results, test_vector3_length, "Vector3 Length");
+    test_run(&results, test_vector3_normalize, "Vector3 Normalization");
     test_end_suite(&results);
 
     /* Run Vector4 tests */
@@ -261,6 +367,14 @@ int main(void) {
     test_run(&results, test_vector4_sub, "Vector4 Subtraction");
     test_run(&results, test_vector4_scale, "Vector4 Scalar Multiplication");
     test_run(&results, test_vector4_dot, "Vector4 Dot Product");
+    test_run(&results, test_vector4_length_squared, "Vector4 Length Squared");
+    test_run(&results, test_vector4_length, "Vector4 Length");
+    test_run(&results, test_vector4_normalize, "Vector4 Normalization");
+    test_end_suite(&results);
+
+    /* Run special case tests */
+    test_begin_suite(&results, "Special Case Tests");
+    test_run(&results, test_vector_normalize_zero, "Normalization of Zero Vectors");
     test_end_suite(&results);
 
     /* Print final results */
