@@ -85,6 +85,33 @@ void test_vector2_normalize(void) {
     TEST_ASSERT_EQUAL_FLOAT(0.8f, fixed_to_float(result.y), 0.01f);
 }
 
+/* Test angle between perpendicular 2D vectors */
+void test_vector2_angle_perpendicular(void) {
+    vector2_t a = vector2_init_int(1, 0);
+    vector2_t b = vector2_init_int(0, 1);
+    fixed_t result = vector2_angle(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 2.0f, fixed_to_float(result), 0.05f);
+}
+
+/* Test angle between parallel 2D vectors */
+void test_vector2_angle_parallel(void) {
+    vector2_t a = vector2_init_int(2, 3);
+    vector2_t b = vector2_init_int(4, 6);
+    fixed_t result = vector2_angle(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(0.0f, fixed_to_float(result), 0.05f);
+}
+
+/* Test angle between opposite 2D vectors */
+void test_vector2_angle_opposite(void) {
+    vector2_t a = vector2_init_int(1, 2);
+    vector2_t b = vector2_init_int(-1, -2);
+    fixed_t result = vector2_angle(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI), fixed_to_float(result), 0.05f);
+}
+
 /* Vector3 tests */
 void test_vector3_init(void) {
     vector3_t v = vector3_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3);
@@ -209,6 +236,24 @@ void test_vector3_normalize(void) {
     TEST_ASSERT_EQUAL_FLOAT(12.0f / 13.0f, fixed_to_float(result.z), 0.01f);
 }
 
+/* Test angle between perpendicular 3D vectors */
+void test_vector3_angle_perpendicular(void) {
+    vector3_t a = vector3_init_int(1, 0, 0);
+    vector3_t b = vector3_init_int(0, 1, 0);
+    fixed_t result = vector3_angle(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 2.0f, fixed_to_float(result), 0.05f);
+}
+
+/* Test angle between vectors at 45 degrees */
+void test_vector3_angle_45_degrees(void) {
+    vector3_t a = vector3_init_int(1, 0, 0);
+    vector3_t b = vector3_init_int(1, 1, 0);
+    fixed_t result = vector3_angle(a, b);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 4.0f, fixed_to_float(result), 0.05f);
+}
+
 /* Vector4 tests */
 void test_vector4_init(void) {
     vector4_t v = vector4_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3, FIXED_ONE * 4);
@@ -323,6 +368,21 @@ void test_vector_normalize_zero(void) {
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result3.z));
 }
 
+/* Test angle with zero vector */
+void test_vector_angle_zero(void) {
+    vector2_t a2 = vector2_init_int(1, 2);
+    vector2_t zero2 = vector2_init(FIXED_ZERO, FIXED_ZERO);
+
+    vector3_t a3 = vector3_init_int(1, 2, 3);
+    vector3_t zero3 = vector3_init(FIXED_ZERO, FIXED_ZERO, FIXED_ZERO);
+
+    fixed_t result2 = vector2_angle(a2, zero2);
+    fixed_t result3 = vector3_angle(a3, zero3);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result2));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result3));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -372,9 +432,19 @@ int main(void) {
     test_run(&results, test_vector4_normalize, "Vector4 Normalization");
     test_end_suite(&results);
 
-    /* Run special case tests */
+    /* Run Special Case Tests */
     test_begin_suite(&results, "Special Case Tests");
     test_run(&results, test_vector_normalize_zero, "Normalization of Zero Vectors");
+    test_run(&results, test_vector_angle_zero, "Angle with Zero Vectors");
+    test_end_suite(&results);
+
+    /* Run Vector Angle Tests */
+    test_begin_suite(&results, "Vector Angle Tests");
+    test_run(&results, test_vector2_angle_perpendicular, "2D Perpendicular Vectors");
+    test_run(&results, test_vector2_angle_parallel, "2D Parallel Vectors");
+    test_run(&results, test_vector2_angle_opposite, "2D Opposite Vectors");
+    test_run(&results, test_vector3_angle_perpendicular, "3D Perpendicular Vectors");
+    test_run(&results, test_vector3_angle_45_degrees, "3D 45 Degree Angle");
     test_end_suite(&results);
 
     /* Print final results */

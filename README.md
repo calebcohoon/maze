@@ -55,10 +55,10 @@
    c. Advanced Vector Operations
       - ~~Dot product~~
       - ~~Cross product~~
-      - Vector normalization
-      - Vector length calculation
-      - Angle between vectors
-      - Complete vector test suite
+      - ~~Vector normalization~~
+      - ~~Vector length calculation~~
+      - ~~Angle between vectors~~
+      - ~~Complete vector test suite~~
 
 3. Matrix Operations
    a. Matrix Foundation

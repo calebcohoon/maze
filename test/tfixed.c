@@ -362,6 +362,54 @@ void test_sqrt_negative(void) {
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
 }
 
+/* Test arccos of 1.0 (should be 0) */
+void test_arccos_one(void) {
+    fixed_t x = FIXED_ONE;
+    fixed_t result = fixed_arccos(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test arccos of -1.0 (should be PI) */
+void test_arccos_neg_one(void) {
+    fixed_t x = -FIXED_ONE;
+    fixed_t result = fixed_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI), fixed_to_float(result), 0.01f);
+}
+
+/* Test arccos of 0.0 (should be PI/2) */
+void test_arccos_zero(void) {
+    fixed_t x = FIXED_ZERO;
+    fixed_t result = fixed_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 2.0f, fixed_to_float(result), 0.01f);
+}
+
+/* Test arccos of 0.5 (should be PI/3) */
+void test_arccos_half(void) {
+    fixed_t x = FIXED_ONE / 2;
+    fixed_t result = fixed_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.047f, fixed_to_float(result), 0.05f);
+}
+
+/* Test arccos of -0.5 (should be 2*PI/3) */
+void test_arccos_neg_half(void) {
+    fixed_t x = -FIXED_ONE / 2;
+    fixed_t result = fixed_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(2.094f, fixed_to_float(result), 0.05f);
+}
+
+/* Test arccos out of range (should return 0) */
+void test_arccos_out_of_range(void) {
+    fixed_t x = FIXED_ONE + FIXED_ONE;
+    fixed_t result = fixed_arccos(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_float(result));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -445,6 +493,16 @@ int main(void) {
     test_run(&results, test_sqrt_one, "Square Root of One");
     test_run(&results, test_sqrt_non_perfect, "Non-Perfect Square Root");
     test_run(&results, test_sqrt_negative, "Negative Square Root");
+    test_end_suite(&results);
+
+    /* Run arccos tests */
+    test_begin_suite(&results, "Fixed-Point Arccos");
+    test_run(&results, test_arccos_one, "Arccos of 1.0");
+    test_run(&results, test_arccos_neg_one, "Arccos of -1.0");
+    test_run(&results, test_arccos_zero, "Arccos of 0.0");
+    test_run(&results, test_arccos_half, "Arccos of 0.5");
+    test_run(&results, test_arccos_neg_half, "Arccos of -0.5");
+    test_run(&results, test_arccos_out_of_range, "Arccos Out of Range");
     test_end_suite(&results);
 
     /* Print final results */

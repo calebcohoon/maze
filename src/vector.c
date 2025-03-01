@@ -173,6 +173,45 @@ vector2_t vector2_normalize(vector2_t v) {
 }
 
 /*
+ * vector2_angle: Calculate the angle between two 2D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The angle between vectors in radians [0, PI] as a fixed-point number
+ */
+fixed_t vector2_angle(vector2_t a, vector2_t b) {
+    fixed_t length_a, length_b, length_product, cos_theta;
+
+    /* Get vector lengths */
+    length_a = vector2_length(a);
+    length_b = vector2_length(b);
+
+    /* Check for zero-length vectors to avoid division by zero */
+    if (length_a == 0 || length_b == 0) {
+        return 0;
+    }
+
+    /* Calculate product of lengths */
+    length_product = fixed_mul(length_a, length_b);
+
+    /* Calculate cosine of angle using dot product formula */
+    cos_theta = fixed_div(vector2_dot(a, b), length_product);
+
+    /* Clamp value to [-1, 1] to handle numeric precision issues */
+    if (cos_theta < -FIXED_ONE) {
+        cos_theta = -FIXED_ONE;
+    } else if (cos_theta > FIXED_ONE) {
+        cos_theta = FIXED_ONE;
+    }
+
+    /* Return angle in radians using arccos */
+    return fixed_arccos(cos_theta);
+}
+
+/*
  * vector3_init: Initialize a 3D vector with given components
  *
  * Parameters:
@@ -363,6 +402,45 @@ vector3_t vector3_normalize(vector3_t v) {
     result.z = fixed_div(v.z, length);
 
     return result;
+}
+
+/*
+ * vector3_angle: Calculate the angle between two 3D vectors
+ *
+ * Parameters:
+ *   a - First vector
+ *   b - Second vector
+ *
+ * Returns:
+ *   The angle between vectors in radians [0, PI] as a fixed-point number
+ */
+fixed_t vector3_angle(vector3_t a, vector3_t b) {
+    fixed_t length_a, length_b, length_product, cos_theta;
+
+    /* Get vector lengths */
+    length_a = vector3_length(a);
+    length_b = vector3_length(b);
+
+    /* Check for zero-length vectors to avoid division by zero */
+    if (length_a == 0 || length_b == 0) {
+        return 0;
+    }
+
+    /* Calculate product of lengths */
+    length_product = fixed_mul(length_a, length_b);
+
+    /* Calculate cosine of angle using dot product formula */
+    cos_theta = fixed_div(vector3_dot(a, b), length_product);
+
+    /* Clamp value to [-1, 1] to handle numeric precision issues */
+    if (cos_theta < -FIXED_ONE) {
+        cos_theta = -FIXED_ONE;
+    } else if (cos_theta > FIXED_ONE) {
+        cos_theta = FIXED_ONE;
+    }
+
+    /* Return angle in radians using arccos */
+    return fixed_arccos(cos_theta);
 }
 
 /*

@@ -39,6 +39,7 @@ fixed_t vector2_dot(vector2_t a, vector2_t b);
 fixed_t vector2_length_squared(vector2_t v);
 fixed_t vector2_length(vector2_t v);
 vector2_t vector2_normalize(vector2_t v);
+fixed_t vector2_angle(vector2_t a, vector2_t b);
 
 /* Vector3 function prototypes */
 vector3_t vector3_init(fixed_t x, fixed_t y, fixed_t z);
@@ -51,6 +52,7 @@ vector3_t vector3_cross(vector3_t a, vector3_t b);
 fixed_t vector3_length_squared(vector3_t v);
 fixed_t vector3_length(vector3_t v);
 vector3_t vector3_normalize(vector3_t v);
+fixed_t vector3_angle(vector3_t a, vector3_t b);
 
 /* Vector4 function prototypes */
 vector4_t vector4_init(fixed_t x, fixed_t y, fixed_t z, fixed_t w);
