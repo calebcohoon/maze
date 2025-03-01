@@ -62,10 +62,10 @@
 
 3. Matrix Operations
    a. Matrix Foundation
-      - Define 4x4 matrix structure
-      - Identity matrix creation
-      - Matrix initialization functions
-      - Basic matrix validation tests
+      - ~~Define 4x4 matrix structure~~
+      - ~~Identity matrix creation~~
+      - ~~Matrix initialization functions~~
+      - ~~Basic matrix validation tests~~
    
    b. Basic Matrix Operations
       - Matrix addition

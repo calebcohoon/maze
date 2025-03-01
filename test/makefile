@@ -89,13 +89,36 @@ vector.obj: ..\src\vector.c ..\include\vector.h
 tvector.obj: tvector.c tmath.h ..\include\vector.h
 	$(CC) $(CFLAGS) tvector.c
 
+tmatrix.exe: tmath.obj fixed.obj vector.obj matrix.obj tmatrix.obj tmatrix.lnk
+	wlink @tmatrix.lnk
+
+tmatrix.lnk:
+	@echo system dos4g > tmatrix.lnk
+	@echo option stack=8k >> tmatrix.lnk
+	@echo name tmatrix.exe >> tmatrix.lnk
+	@echo file tmath.obj >> tmatrix.lnk
+	@echo file fixed.obj >> tmatrix.lnk
+	@echo file vector.obj >> tmatrix.lnk
+	@echo file matrix.obj >> tmatrix.lnk
+	@echo file tmatrix.obj >> tmatrix.lnk
+
+matrix.obj: ..\src\matrix.c ..\include\matrix.h
+	$(CC) $(CFLAGS) ..\src\matrix.c
+
+tmatrix.obj: tmatrix.c tmath.h ..\include\matrix.h
+	$(CC) $(CFLAGS) tmatrix.c
+
 clean:
 	del *.obj
+	del *.lnk
+	del *.err
 	del tmath.exe
 	del tfixed.exe
 	del tvector.exe
+	del tmatrix.exe
 
-test: tmath.exe tfixed.exe tvector.exe
+test: tmath.exe tfixed.exe tvector.exe tmatrix.exe
 	tmath.exe
 	tfixed.exe
 	tvector.exe
+	tmatrix.exe
