@@ -252,6 +252,114 @@ void test_matrix_scale(void) {
     TEST_ASSERT_EQUAL_INT(2, fixed_to_int(result.m[1][2]));
 }
 
+/* Test matrix-vector multiplication with 4D vector */
+void test_matrix_mul_vector4(void) {
+    matrix_t m = matrix_init();
+    vector4_t v;
+    vector4_t result;
+
+    /* Test with identity matrix */
+    m = matrix_identity();
+    v = vector4_init_int(2, 3, 4, 1);
+
+    result = matrix_mul_vector4(&m, &v);
+
+    /* Identity matrix should not change the vector */
+    TEST_ASSERT_EQUAL_INT(2, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(3, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+
+    /* Test with non-identity matrix */
+    m = matrix_init();
+    matrix_set(&m, 0, 0, fixed_from_int(2));  // Scale x by 2
+    matrix_set(&m, 1, 1, fixed_from_int(3));  // Scale y by 3
+    matrix_set(&m, 2, 2, fixed_from_int(4));  // Scale z by 4
+    matrix_set(&m, 3, 3, fixed_from_int(1));  // Scale w by 1
+
+    result = matrix_mul_vector4(&m, &v);
+
+    /* Should scale each component */
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(9, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(16, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+
+    /* Test translation using a 4D vector */
+    m = matrix_identity();
+    matrix_set(&m, 0, 3, fixed_from_int(10));  // Translate x by 10
+    matrix_set(&m, 1, 3, fixed_from_int(20));  // Translate y by 20
+    matrix_set(&m, 2, 3, fixed_from_int(30));  // Translate z by 30
+
+    v = vector4_init_int(5, 6, 7, 1);
+
+    result = matrix_mul_vector4(&m, &v);
+
+    /* Should translate the point */
+    TEST_ASSERT_EQUAL_INT(15, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(26, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(37, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+
+    /* Test that direction vectors are not affected by translation */
+    v = vector4_init_int(5, 6, 7, 0);
+
+    result = matrix_mul_vector4(&m, &v);
+
+    /* Should translate the point */
+    TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(7, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.w));
+}
+
+/* Test matrix-vector multiplication with 3D vector */
+void test_matrix_mul_vector3(void) {
+    matrix_t m = matrix_init();
+    vector3_t v;
+    vector3_t result;
+
+    /* Test with identity matrix */
+    m = matrix_identity();
+    v = vector3_init_int(2, 3, 4);
+
+    result = matrix_mul_vector3(&m, &v);
+
+    /* Identity matrix should not change the vector */
+    TEST_ASSERT_EQUAL_INT(2, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(3, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.z));
+
+    /* Test with non-identity matrix */
+    m = matrix_init();
+    matrix_set(&m, 0, 0, fixed_from_int(2));  // Scale x by 2
+    matrix_set(&m, 1, 1, fixed_from_int(3));  // Scale y by 3
+    matrix_set(&m, 2, 2, fixed_from_int(4));  // Scale z by 4
+    matrix_set(&m, 3, 3, fixed_from_int(1));  // Scale w by 1
+
+    result = matrix_mul_vector3(&m, &v);
+
+    /* Should scale each component */
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(9, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(16, fixed_to_int(result.z));
+
+    /* Test translation using a 3D vector */
+    m = matrix_identity();
+    matrix_set(&m, 0, 3, fixed_from_int(10));  // Translate x by 10
+    matrix_set(&m, 1, 3, fixed_from_int(20));  // Translate y by 20
+    matrix_set(&m, 2, 3, fixed_from_int(30));  // Translate z by 30
+
+    v = vector3_init_int(5, 6, 7);
+
+    result = matrix_mul_vector3(&m, &v);
+
+    /* Should translate the point */
+    TEST_ASSERT_EQUAL_INT(15, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(26, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(37, fixed_to_int(result.z));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -282,6 +390,12 @@ int main(void) {
     test_run(&results, test_matrix_sub, "Matrix Subtraction");
     test_run(&results, test_matrix_add_sub_identity, "Add/Sub with Identity");
     test_run(&results, test_matrix_scale, "Scalar Multiplication");
+    test_end_suite(&results);
+
+    /* Run matrix-vector multiplication tests */
+    test_begin_suite(&results, "Matrix-Vector Operations");
+    test_run(&results, test_matrix_mul_vector4, "Matrix-Vector4 Multiplication");
+    test_run(&results, test_matrix_mul_vector3, "Matrix-Vector3 Multiplication");
     test_end_suite(&results);
 
     /* Print final results */

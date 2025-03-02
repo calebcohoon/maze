@@ -71,7 +71,7 @@
       - ~~Matrix addition~~
       - ~~Matrix subtraction~~
       - ~~Matrix-scalar multiplication~~
-      - Matrix-vector multiplication
+      - ~~Matrix-vector multiplication~~
       - Matrix-matrix multiplication
       - Operation test suite
    

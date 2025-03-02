@@ -159,6 +159,93 @@ matrix_t matrix_scale(const matrix_t *m, fixed_t scalar) {
 }
 
 /*
+ * matrix_mul_vector4: Multiply a 4x4 matrix by a 4D vector
+ *
+ * Parameters:
+ *   m - Pointer to the matrix
+ *   v - Pointer to the 4D vector
+ *
+ * Returns:
+ *   The resulting 4D vector
+ */
+vector4_t matrix_mul_vector4(const matrix_t *m, const vector4_t *v) {
+    vector4_t result;
+    fixed_t sum;
+    int row, col;
+
+    /* Compute each component of the result vector */
+    for (row = 0; row < 4; row++) {
+        sum = FIXED_ZERO;
+
+        /* Dot product of the matrix row with vector */
+        for (col = 0; col < 4; col++) {
+            switch (col) {
+                case 0:
+                    sum = fixed_add(sum, fixed_mul(m->m[row][col], v->x));
+                    break;
+                case 1:
+                    sum = fixed_add(sum, fixed_mul(m->m[row][col], v->y));
+                    break;
+                case 2:
+                    sum = fixed_add(sum, fixed_mul(m->m[row][col], v->z));
+                    break;
+                case 3:
+                    sum = fixed_add(sum, fixed_mul(m->m[row][col], v->w));
+                    break;
+            }
+        }
+
+        /* Assign sum to the appropriate result component */
+        switch (row) {
+            case 0:
+                result.x = sum;
+                break;
+            case 1:
+                result.y = sum;
+                break;
+            case 2:
+                result.z = sum;
+                break;
+            case 3:
+                result.w = sum;
+                break;
+        }
+    }
+
+    return result;
+}
+
+/*
+ * matrix_mul_vector3: Multiply a 4x4 matrix by a 3D vector
+ *
+ * Parameters:
+ *   m - Pointer to the matrix
+ *   v - Pointer to the 3D vector
+ *
+ * Returns:
+ *   The resulting 3D vector
+ */
+vector3_t matrix_mul_vector3(const matrix_t *m, const vector3_t *v) {
+    vector4_t v4, result4;
+    vector3_t result;
+
+    /* Convert 3D vector to 4D vector with w=1 */
+    v4.x = v->x;
+    v4.y = v->y;
+    v4.z = v->z;
+    v4.w = FIXED_ONE;
+
+    result4 = matrix_mul_vector4(m, &v4);
+
+    /* Convert back to 3D */
+    result.x = result4.x;
+    result.y = result4.y;
+    result.z = result4.z;
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:

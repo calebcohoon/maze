@@ -24,6 +24,8 @@ fixed_t matrix_get(const matrix_t *mat, int row, int col);
 matrix_t matrix_add(const matrix_t *a, const matrix_t *b);
 matrix_t matrix_sub(const matrix_t *a, const matrix_t *b);
 matrix_t matrix_scale(const matrix_t *m, fixed_t scalar);
+vector4_t matrix_mul_vector4(const matrix_t *m, const vector4_t *v);
+vector3_t matrix_mul_vector3(const matrix_t *m, const vector3_t *v);
 int matrix_is_identity(const matrix_t *mat);
 int matrix_equals(const matrix_t *a, const matrix_t *b);
 void matrix_print(const matrix_t *mat);  // Debug function
