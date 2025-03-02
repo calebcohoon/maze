@@ -9,7 +9,7 @@
 #include "..\include\vector.h"
 #include "tmath.h"
 
-/* Vector2 tests */
+/* Test 2D vector initialization */
 void test_vector2_init(void) {
     vector2_t v = vector2_init(FIXED_ONE, FIXED_ONE * 2);
 
@@ -17,6 +17,7 @@ void test_vector2_init(void) {
     TEST_ASSERT_EQUAL_INT(2, fixed_to_int(v.y));
 }
 
+/* Test 2D vector initialization with integers */
 void test_vector2_init_int(void) {
     vector2_t v = vector2_init_int(3, 4);
 
@@ -24,6 +25,7 @@ void test_vector2_init_int(void) {
     TEST_ASSERT_EQUAL_INT(4, fixed_to_int(v.y));
 }
 
+/* Test 2D vector addition */
 void test_vector2_add(void) {
     vector2_t a = vector2_init_int(1, 2);
     vector2_t b = vector2_init_int(3, 4);
@@ -33,6 +35,7 @@ void test_vector2_add(void) {
     TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.y));
 }
 
+/* Test 2D vector subtraction */
 void test_vector2_sub(void) {
     vector2_t a = vector2_init_int(5, 7);
     vector2_t b = vector2_init_int(2, 3);
@@ -42,6 +45,7 @@ void test_vector2_sub(void) {
     TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.y));
 }
 
+/* Test 2D vector scaling */
 void test_vector2_scale(void) {
     vector2_t v = vector2_init_int(2, 3);
     vector2_t result = vector2_scale(v, fixed_from_int(2));
@@ -50,6 +54,7 @@ void test_vector2_scale(void) {
     TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.y));
 }
 
+/* Test 2D vector dot product */
 void test_vector2_dot(void) {
     vector2_t a = vector2_init_int(2, 3);
     vector2_t b = vector2_init_int(4, 5);
@@ -112,7 +117,7 @@ void test_vector2_angle_opposite(void) {
     TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI), fixed_to_float(result), 0.05f);
 }
 
-/* Vector3 tests */
+/* Test 3D vector initialization */
 void test_vector3_init(void) {
     vector3_t v = vector3_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3);
 
@@ -121,6 +126,7 @@ void test_vector3_init(void) {
     TEST_ASSERT_EQUAL_INT(3, fixed_to_int(v.z));
 }
 
+/* Test 3D vector initialization with integers */
 void test_vector3_init_int(void) {
     vector3_t v = vector3_init_int(4, 5, 6);
 
@@ -129,6 +135,7 @@ void test_vector3_init_int(void) {
     TEST_ASSERT_EQUAL_INT(6, fixed_to_int(v.z));
 }
 
+/* Test 3D vector addition */
 void test_vector3_add(void) {
     vector3_t a = vector3_init_int(1, 2, 3);
     vector3_t b = vector3_init_int(4, 5, 6);
@@ -139,6 +146,7 @@ void test_vector3_add(void) {
     TEST_ASSERT_EQUAL_INT(9, fixed_to_int(result.z));
 }
 
+/* Test 3D vector subtraction */
 void test_vector3_sub(void) {
     vector3_t a = vector3_init_int(6, 8, 10);
     vector3_t b = vector3_init_int(1, 3, 5);
@@ -149,6 +157,7 @@ void test_vector3_sub(void) {
     TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result.z));
 }
 
+/* Test 3D vector scaling */
 void test_vector3_scale(void) {
     vector3_t v = vector3_init_int(2, 3, 4);
     vector3_t result = vector3_scale(v, fixed_from_int(2));
@@ -158,6 +167,7 @@ void test_vector3_scale(void) {
     TEST_ASSERT_EQUAL_INT(8, fixed_to_int(result.z));
 }
 
+/* Test 3D vector dot product */
 void test_vector3_dot(void) {
     vector3_t a = vector3_init_int(1, 2, 3);
     vector3_t b = vector3_init_int(4, 5, 6);
@@ -166,6 +176,7 @@ void test_vector3_dot(void) {
     TEST_ASSERT_EQUAL_INT(32, fixed_to_int(result));
 }
 
+/* Test 3D vector cross product */
 void test_vector3_cross(void) {
     vector3_t a = vector3_init_int(2, 3, 4);
     vector3_t b = vector3_init_int(5, 6, 7);
@@ -176,6 +187,7 @@ void test_vector3_cross(void) {
     TEST_ASSERT_EQUAL_INT(-3, fixed_to_int(result.z));
 }
 
+/* Test 3D vector anti-commutative cross product */
 void test_vector3_cross_anticommutative(void) {
     vector3_t a = vector3_init_int(1, 2, 3);
     vector3_t b = vector3_init_int(4, 5, 6);
@@ -187,6 +199,7 @@ void test_vector3_cross_anticommutative(void) {
     TEST_ASSERT_EQUAL_INT(fixed_to_int(ab_cross.z), fixed_to_int(fixed_neg(ba_cross.z)));
 }
 
+/* Test 3D vector cross product with basis vectors */
 void test_vector3_cross_basis(void) {
     vector3_t x_axis = vector3_init_int(1, 0, 0);
     vector3_t y_axis = vector3_init_int(0, 1, 0);
@@ -254,7 +267,7 @@ void test_vector3_angle_45_degrees(void) {
     TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 4.0f, fixed_to_float(result), 0.05f);
 }
 
-/* Vector4 tests */
+/* Test 4D vector initialization */
 void test_vector4_init(void) {
     vector4_t v = vector4_init(FIXED_ONE, FIXED_ONE * 2, FIXED_ONE * 3, FIXED_ONE * 4);
 
@@ -264,6 +277,7 @@ void test_vector4_init(void) {
     TEST_ASSERT_EQUAL_INT(4, fixed_to_int(v.w));
 }
 
+/* Test 4D vector initialization with integers */
 void test_vector4_init_int(void) {
     vector4_t v = vector4_init_int(5, 6, 7, 8);
 
@@ -273,6 +287,7 @@ void test_vector4_init_int(void) {
     TEST_ASSERT_EQUAL_INT(8, fixed_to_int(v.w));
 }
 
+/* Test 4D vector creation from 3D vector */
 void test_vector4_from_vec3(void) {
     vector3_t v3 = vector3_init_int(1, 2, 3);
     vector4_t v4 = vector4_from_vec3(v3, FIXED_ONE);
@@ -283,6 +298,7 @@ void test_vector4_from_vec3(void) {
     TEST_ASSERT_EQUAL_INT(1, fixed_to_int(v4.w));
 }
 
+/* Test 4D vector addition */
 void test_vector4_add(void) {
     vector4_t a = vector4_init_int(1, 2, 3, 4);
     vector4_t b = vector4_init_int(5, 6, 7, 8);
@@ -294,6 +310,7 @@ void test_vector4_add(void) {
     TEST_ASSERT_EQUAL_INT(12, fixed_to_int(result.w));
 }
 
+/* Test 4D vector subtraction */
 void test_vector4_sub(void) {
     vector4_t a = vector4_init_int(6, 8, 10, 11);
     vector4_t b = vector4_init_int(1, 3, 5, 6);
@@ -305,6 +322,7 @@ void test_vector4_sub(void) {
     TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result.w));
 }
 
+/* Test 4D vector scaling */
 void test_vector4_scale(void) {
     vector4_t v = vector4_init_int(2, 3, 4, 5);
     vector4_t result = vector4_scale(v, fixed_from_int(2));
@@ -315,6 +333,7 @@ void test_vector4_scale(void) {
     TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.w));
 }
 
+/* Test 4D vector dot product */
 void test_vector4_dot(void) {
     vector4_t a = vector4_init_int(1, 2, 3, 4);
     vector4_t b = vector4_init_int(5, 6, 7, 8);
