@@ -136,6 +136,29 @@ matrix_t matrix_sub(const matrix_t *a, const matrix_t *b) {
 }
 
 /*
+ * matrix_scale: Multiply all elements of a matrix by a scalar
+ *
+ * Parameters:
+ *   m - Pointer to the matrix
+ *   scalar - Fixed-point scalar to multiply by
+ *
+ * Returns:
+ *   The result of scaling each element of the matrix
+ */
+matrix_t matrix_scale(const matrix_t *m, fixed_t scalar) {
+    matrix_t result;
+    int row, col;
+
+    for (row = 0; row < 4; row++) {
+        for (col = 0; col < 4; col++) {
+            result.m[row][col] = fixed_mul(m->m[row][col], scalar);
+        }
+    }
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:

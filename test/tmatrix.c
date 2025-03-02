@@ -193,6 +193,65 @@ void test_matrix_add_sub_identity(void) {
     TEST_ASSERT_EQUAL_INT(5, fixed_to_int(result.m[0][2]));
 }
 
+/* Test matrix scalar multiplication */
+void test_matrix_scale(void) {
+    matrix_t m = matrix_init();
+    matrix_t result;
+    fixed_t scalar;
+    int row, col;
+
+    /* Initialize test matrix */
+    matrix_set(&m, 0, 0, fixed_from_int(1));
+    matrix_set(&m, 1, 1, fixed_from_int(2));
+    matrix_set(&m, 2, 2, fixed_from_int(3));
+    matrix_set(&m, 3, 3, fixed_from_int(4));
+    matrix_set(&m, 0, 3, fixed_from_int(5));
+    matrix_set(&m, 1, 2, fixed_from_int(-2));
+
+    scalar = fixed_from_int(2);
+    result = matrix_scale(&m, scalar);
+
+    /* Check results */
+    TEST_ASSERT_EQUAL_INT(2, fixed_to_int(result.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.m[1][1]));
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(8, fixed_to_int(result.m[3][3]));
+    TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.m[0][3]));
+    TEST_ASSERT_EQUAL_INT(-4, fixed_to_int(result.m[1][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[2][1]));
+
+    scalar = fixed_from_float(0.5f);
+    result = matrix_scale(&m, scalar);
+
+    /* Check results */
+    TEST_ASSERT_EQUAL_FLOAT(0.5f, fixed_to_float(result.m[0][0]), 0.001f);
+    TEST_ASSERT_EQUAL_FLOAT(1.0f, fixed_to_float(result.m[1][1]), 0.001f);
+    TEST_ASSERT_EQUAL_FLOAT(1.5f, fixed_to_float(result.m[2][2]), 0.001f);
+    TEST_ASSERT_EQUAL_FLOAT(2.0f, fixed_to_float(result.m[3][3]), 0.001f);
+    TEST_ASSERT_EQUAL_FLOAT(2.5f, fixed_to_float(result.m[0][3]), 0.001f);
+    TEST_ASSERT_EQUAL_FLOAT(-1.0f, fixed_to_float(result.m[1][2]), 0.001f);
+
+    scalar = FIXED_ZERO;
+    result = matrix_scale(&m, scalar);
+
+    for (row = 0; row < 4; row++) {
+        for (col = 0; col < 4; col++) {
+            TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[row][col]));
+        }
+    }
+
+    scalar = fixed_from_int(-1);
+    result = matrix_scale(&m, scalar);
+
+    /* Check results */
+    TEST_ASSERT_EQUAL_INT(-1, fixed_to_int(result.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(-2, fixed_to_int(result.m[1][1]));
+    TEST_ASSERT_EQUAL_INT(-3, fixed_to_int(result.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(-4, fixed_to_int(result.m[3][3]));
+    TEST_ASSERT_EQUAL_INT(-5, fixed_to_int(result.m[0][3]));
+    TEST_ASSERT_EQUAL_INT(2, fixed_to_int(result.m[1][2]));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -222,6 +281,7 @@ int main(void) {
     test_run(&results, test_matrix_add, "Matrix Addition");
     test_run(&results, test_matrix_sub, "Matrix Subtraction");
     test_run(&results, test_matrix_add_sub_identity, "Add/Sub with Identity");
+    test_run(&results, test_matrix_scale, "Scalar Multiplication");
     test_end_suite(&results);
 
     /* Print final results */
