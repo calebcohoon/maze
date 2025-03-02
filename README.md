@@ -72,7 +72,7 @@
       - ~~Matrix subtraction~~
       - ~~Matrix-scalar multiplication~~
       - ~~Matrix-vector multiplication~~
-      - Matrix-matrix multiplication
+      - ~~Matrix-matrix multiplication~~
       - Operation test suite
    
    c. Transform Matrices

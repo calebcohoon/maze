@@ -209,6 +209,38 @@ vector3_t matrix_mul_vector3(const matrix_t *m, const vector3_t *v) {
 }
 
 /*
+ * matrix_mul: Multiply two 4x4 matrices
+ *
+ * Parameters:
+ *   a - Pointer to the first matrix
+ *   b - Pointer to the second matrix
+ *
+ * Returns:
+ *   The result of a * b
+ */
+matrix_t matrix_mul(const matrix_t *a, const matrix_t *b) {
+    matrix_t result;
+    int i, j, k;
+    fixed_t sum;
+
+    /* Compute each element of the result matrix */
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            /* Calculate dot product of row i from a and column j from b */
+            sum = FIXED_ZERO;
+
+            for (k = 0; k < 4; k++) {
+                sum = fixed_add(sum, fixed_mul(a->m[i][k], b->m[k][j]));
+            }
+
+            result.m[i][j] = sum;
+        }
+    }
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:

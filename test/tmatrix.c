@@ -360,6 +360,91 @@ void test_matrix_mul_vector3(void) {
     TEST_ASSERT_EQUAL_INT(37, fixed_to_int(result.z));
 }
 
+/* Test matrix-matrix multiplication */
+void test_matrix_multiplication(void) {
+    matrix_t a = matrix_init();
+    matrix_t b = matrix_init();
+    matrix_t result, ab, ba;
+
+    /* Initialize test matrix a */
+    matrix_set(&a, 0, 0, fixed_from_int(1));
+    matrix_set(&a, 0, 1, fixed_from_int(2));
+    matrix_set(&a, 1, 0, fixed_from_int(3));
+    matrix_set(&a, 1, 1, fixed_from_int(4));
+    matrix_set(&a, 2, 2, fixed_from_int(1));
+    matrix_set(&a, 3, 3, fixed_from_int(1));
+
+    /* Initialize test matrix b */
+    matrix_set(&b, 0, 0, fixed_from_int(2));
+    matrix_set(&b, 0, 1, fixed_from_int(0));
+    matrix_set(&b, 1, 0, fixed_from_int(1));
+    matrix_set(&b, 1, 1, fixed_from_int(3));
+    matrix_set(&b, 2, 2, fixed_from_int(4));
+    matrix_set(&b, 3, 3, fixed_from_int(1));
+
+    result = matrix_mul(&a, &b);
+
+    /* Check results */
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.m[0][1]));
+    TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.m[1][0]));
+    TEST_ASSERT_EQUAL_INT(12, fixed_to_int(result.m[1][1]));
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.m[3][3]));
+
+    /* Check that other elements are 0 */
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[0][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[0][3]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[1][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[1][3]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[2][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[2][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[2][3]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[3][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[3][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.m[3][2]));
+
+    /* Test multiplication with identity matrix */
+    b = matrix_identity();
+    result = matrix_mul(&a, &b);
+
+    /* a * I = a */
+    TEST_ASSERT("Multiply by identity preserves matrix", matrix_equals(&result, &a));
+
+    /* Test multiplication order */
+    a = matrix_init();
+    b = matrix_init();
+
+    /* Create simple non-commutative matrices */
+    matrix_set(&a, 0, 0, fixed_from_int(1));
+    matrix_set(&a, 0, 1, fixed_from_int(2));
+    matrix_set(&a, 1, 0, fixed_from_int(3));
+    matrix_set(&a, 1, 1, fixed_from_int(4));
+
+    matrix_set(&b, 0, 0, fixed_from_int(5));
+    matrix_set(&b, 0, 1, fixed_from_int(6));
+    matrix_set(&b, 1, 0, fixed_from_int(7));
+    matrix_set(&b, 1, 1, fixed_from_int(8));
+
+    ab = matrix_mul(&a, &b);
+    ba = matrix_mul(&b, &a);
+
+    /* Should not be equal */
+    TEST_ASSERT("Matrix multiplication not commutative", !matrix_equals(&ab, &ba));
+
+    /* Verify specific values in ab */
+    TEST_ASSERT_EQUAL_INT(19, fixed_to_int(ab.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(22, fixed_to_int(ab.m[0][1]));
+    TEST_ASSERT_EQUAL_INT(43, fixed_to_int(ab.m[1][0]));
+    TEST_ASSERT_EQUAL_INT(50, fixed_to_int(ab.m[1][1]));
+
+    /* Verify specific values in ba */
+    TEST_ASSERT_EQUAL_INT(23, fixed_to_int(ba.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(34, fixed_to_int(ba.m[0][1]));
+    TEST_ASSERT_EQUAL_INT(31, fixed_to_int(ba.m[1][0]));
+    TEST_ASSERT_EQUAL_INT(46, fixed_to_int(ba.m[1][1]));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -390,6 +475,7 @@ int main(void) {
     test_run(&results, test_matrix_sub, "Matrix Subtraction");
     test_run(&results, test_matrix_add_sub_identity, "Add/Sub with Identity");
     test_run(&results, test_matrix_scale, "Scalar Multiplication");
+    test_run(&results, test_matrix_multiplication, "Matrix-Matrix Multiplication");
     test_end_suite(&results);
 
     /* Run matrix-vector multiplication tests */
