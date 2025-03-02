@@ -12,21 +12,36 @@
 
 /* Type definitions */
 typedef struct {
-    fixed_t x;
-    fixed_t y;
+    union {
+        struct {
+            fixed_t x;
+            fixed_t y;
+        };
+        fixed_t v[2];
+    };
 } vector2_t;
 
 typedef struct {
-    fixed_t x;
-    fixed_t y;
-    fixed_t z;
+    union {
+        struct {
+            fixed_t x;
+            fixed_t y;
+            fixed_t z;
+        };
+        fixed_t v[3];
+    };
 } vector3_t;
 
 typedef struct {
-    fixed_t x;
-    fixed_t y;
-    fixed_t z;
-    fixed_t w;
+    union {
+        struct {
+            fixed_t x;
+            fixed_t y;
+            fixed_t z;
+            fixed_t w;
+        };
+        fixed_t v[4];
+    };
 } vector4_t;
 
 /* Vector2 function prototypes */
