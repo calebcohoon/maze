@@ -68,8 +68,8 @@
       - ~~Basic matrix validation tests~~
    
    b. Basic Matrix Operations
-      - Matrix addition
-      - Matrix subtraction
+      - ~~Matrix addition~~
+      - ~~Matrix subtraction~~
       - Matrix-scalar multiplication
       - Matrix-vector multiplication
       - Matrix-matrix multiplication

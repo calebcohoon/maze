@@ -90,6 +90,52 @@ fixed_t matrix_get(const matrix_t *mat, int row, int col) {
 }
 
 /*
+ * matrix_add: Add two matrices element wise
+ *
+ * Parameters:
+ *   a - Pointer to the first matrix
+ *   b - Pointer to the second matrix
+ *
+ * Returns:
+ *   The result of a + b
+ */
+matrix_t matrix_add(const matrix_t *a, const matrix_t *b) {
+    matrix_t result;
+    int row, col;
+
+    for (row = 0; row < 4; row++) {
+        for (col = 0; col < 4; col++) {
+            result.m[row][col] = fixed_add(a->m[row][col], b->m[row][col]);
+        }
+    }
+
+    return result;
+}
+
+/*
+ * matrix_sub: Subtract two matrices element wise
+ *
+ * Parameters:
+ *   a - Pointer to the first matrix
+ *   b - Pointer to the second matrix
+ *
+ * Returns:
+ *   The result of a - b
+ */
+matrix_t matrix_sub(const matrix_t *a, const matrix_t *b) {
+    matrix_t result;
+    int row, col;
+
+    for (row = 0; row < 4; row++) {
+        for (col = 0; col < 4; col++) {
+            result.m[row][col] = fixed_sub(a->m[row][col], b->m[row][col]);
+        }
+    }
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:

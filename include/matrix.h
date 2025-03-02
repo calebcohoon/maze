@@ -21,6 +21,8 @@ matrix_t matrix_init(void);      // Initialize to zero matrix
 matrix_t matrix_identity(void);  // Initialize to identity matrix
 void matrix_set(matrix_t *mat, int row, int col, fixed_t value);
 fixed_t matrix_get(const matrix_t *mat, int row, int col);
+matrix_t matrix_add(const matrix_t *a, const matrix_t *b);
+matrix_t matrix_sub(const matrix_t *a, const matrix_t *b);
 int matrix_is_identity(const matrix_t *mat);
 int matrix_equals(const matrix_t *a, const matrix_t *b);
 void matrix_print(const matrix_t *mat);  // Debug function
