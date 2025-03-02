@@ -73,7 +73,7 @@
       - ~~Matrix-scalar multiplication~~
       - ~~Matrix-vector multiplication~~
       - ~~Matrix-matrix multiplication~~
-      - Operation test suite
+      - ~~Operation test suite~~
    
    c. Transform Matrices
       - Translation matrix generation
