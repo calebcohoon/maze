@@ -101,6 +101,7 @@ fixed_t matrix_get(const matrix_t *mat, int row, int col) {
 int matrix_is_identity(const matrix_t *mat) {
     int row, col;
     fixed_t expected;
+    fixed_t epsilon = 5; /* Approx 0.000076 in fixed-point */
 
     for (row = 0; row < 4; row++) {
         for (col = 0; col < 4; col++) {
@@ -108,7 +109,7 @@ int matrix_is_identity(const matrix_t *mat) {
             expected = (row == col) ? FIXED_ONE : FIXED_ZERO;
 
             /* Check against a small epsilon to account for floating point precision */
-            if (fixed_abs(mat->m[row][col] - expected) > 100) {
+            if (fixed_abs(mat->m[row][col] - expected) > epsilon) {
                 return 0;  // Not identity
             }
         }
@@ -129,11 +130,12 @@ int matrix_is_identity(const matrix_t *mat) {
  */
 int matrix_equals(const matrix_t *a, const matrix_t *b) {
     int row, col;
+    fixed_t epsilon = 5; /* Approx 0.000076 in fixed-point */
 
     for (row = 0; row < 4; row++) {
         for (col = 0; col < 4; col++) {
             /* Check against a small epsilon to account for floating point precision */
-            if (fixed_abs(a->m[row][col] - b->m[row][col]) > 100) {
+            if (fixed_abs(a->m[row][col] - b->m[row][col]) > epsilon) {
                 return 0;  // Not identical
             }
         }
