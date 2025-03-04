@@ -504,6 +504,76 @@ void test_matrix_translation(void) {
     TEST_ASSERT_EQUAL_INT(37, fixed_to_int(combined.m[2][3]));
 }
 
+/* Test scaling matrix creation */
+void test_matrix_scaling(void) {
+    fixed_t x = fixed_from_int(2);
+    fixed_t y = fixed_from_int(3);
+    fixed_t z = fixed_from_int(4);
+    matrix_t scale = matrix_scaling(x, y, z);
+    matrix_t scale2, combined, uniform;
+    vector4_t point, result, dir;
+
+    /* Check the scale matrix structure */
+    TEST_ASSERT_EQUAL_INT(2, fixed_to_int(scale.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(3, fixed_to_int(scale.m[1][1]));
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(scale.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(scale.m[3][3]));
+
+    /* All other elements should be zero */
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[0][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[0][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[0][3]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[1][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[1][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[1][3]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[2][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[2][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[2][3]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[3][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[3][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(scale.m[3][2]));
+
+    /* Test scaling a point */
+    point = vector4_init_int(5, 10, 15, 1);
+    result = matrix_mul_vector4(&scale, &point);
+
+    /* Should be scaled */
+    TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(30, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(60, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+
+    /* Test scaling a direction vector */
+    dir = vector4_init_int(5, 10, 15, 0);
+    result = matrix_mul_vector4(&scale, &dir);
+
+    /* Direction should be scaled */
+    TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(30, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(60, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.w));
+
+    /* Test that consecutive scaling multiplies */
+    scale2 = matrix_scaling(fixed_from_int(3), fixed_from_int(2), fixed_from_int(5));
+    combined = matrix_mul(&scale2, &scale);
+
+    /* Check combined scale factors */
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(combined.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(combined.m[1][1]));
+    TEST_ASSERT_EQUAL_INT(20, fixed_to_int(combined.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(combined.m[3][3]));
+
+    /* Test uniform scaling (same factor for all axes) */
+    uniform = matrix_scaling(fixed_from_int(2), fixed_from_int(2), fixed_from_int(2));
+    point = vector4_init_int(3, 4, 5, 1);
+    result = matrix_mul_vector4(&uniform, &point);
+
+    TEST_ASSERT_EQUAL_INT(6, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(8, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(10, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -546,6 +616,7 @@ int main(void) {
     /* Run matrix transform matrices tests */
     test_begin_suite(&results, "Transform Matrices");
     test_run(&results, test_matrix_translation, "Translation Matrix");
+    test_run(&results, test_matrix_scaling, "Scaling Matrix");
     test_end_suite(&results);
 
     /* Print final results */

@@ -263,6 +263,29 @@ matrix_t matrix_translation(fixed_t x, fixed_t y, fixed_t z) {
 }
 
 /*
+ * matrix_scaling: Create a scaling matrix
+ *
+ * Parameters:
+ *   x - Scale factor along the X axis in fixed-point format
+ *   y - Scale factor along the Y axis in fixed-point format
+ *   z - Scale factor along the Z axis in fixed-point format
+ *
+ * Returns:
+ *   A 4x4 matrix scaled by the specified amounts
+ */
+matrix_t matrix_scaling(fixed_t x, fixed_t y, fixed_t z) {
+    matrix_t result = matrix_init();
+
+    /* Set diagonal elements to the scale factors */
+    result.m[0][0] = x;
+    result.m[1][1] = y;
+    result.m[2][2] = z;
+    result.m[3][3] = FIXED_ONE;
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:
