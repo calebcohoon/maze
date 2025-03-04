@@ -241,6 +241,28 @@ matrix_t matrix_mul(const matrix_t *a, const matrix_t *b) {
 }
 
 /*
+ * matrix_translation: Create a translation matrix
+ *
+ * Parameters:
+ *   x - Translation along the X axis in fixed-point format
+ *   y - Translation along the Y axis in fixed-point format
+ *   z - Translation along the Z axis in fixed-point format
+ *
+ * Returns:
+ *   A 4x4 matrix translated by the specified amounts
+ */
+matrix_t matrix_translation(fixed_t x, fixed_t y, fixed_t z) {
+    matrix_t result = matrix_identity();
+
+    /* Set translation components in the rightmost column */
+    result.m[0][3] = x;
+    result.m[1][3] = y;
+    result.m[2][3] = z;
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:

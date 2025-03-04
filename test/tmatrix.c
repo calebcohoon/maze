@@ -445,6 +445,65 @@ void test_matrix_multiplication(void) {
     TEST_ASSERT_EQUAL_INT(46, fixed_to_int(ba.m[1][1]));
 }
 
+/* Test matrix translation creation */
+void test_matrix_translation(void) {
+    fixed_t x = fixed_from_int(5);
+    fixed_t y = fixed_from_int(-3);
+    fixed_t z = fixed_from_int(7);
+    matrix_t trans = matrix_translation(x, y, z);
+    matrix_t trans2, combined;
+    vector4_t point, result, dir;
+
+    /* Check that it's the identity with translation values */
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(trans.m[0][0]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(trans.m[1][1]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(trans.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(trans.m[3][3]));
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[0][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[0][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[1][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[1][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[2][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[2][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[3][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[3][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(trans.m[3][2]));
+
+    /* Check translation components */
+    TEST_ASSERT_EQUAL_INT(5, fixed_to_int(trans.m[0][3]));
+    TEST_ASSERT_EQUAL_INT(-3, fixed_to_int(trans.m[1][3]));
+    TEST_ASSERT_EQUAL_INT(7, fixed_to_int(trans.m[2][3]));
+
+    /* Test translating a point */
+    point = vector4_init_int(2, 3, 4, 1);
+    result = matrix_mul_vector4(&trans, &point);
+
+    /* Should be translated */
+    TEST_ASSERT_EQUAL_INT(7, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(11, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+
+    /* Test with a direction vector (should not change) */
+    dir = vector4_init_int(2, 3, 4, 0);
+    result = matrix_mul_vector4(&trans, &dir);
+
+    /* Direction should be unchanged */
+    TEST_ASSERT_EQUAL_INT(2, fixed_to_int(result.x));
+    TEST_ASSERT_EQUAL_INT(3, fixed_to_int(result.y));
+    TEST_ASSERT_EQUAL_INT(4, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result.w));
+
+    /* Test that consecutive translations add up */
+    trans2 = matrix_translation(fixed_from_int(10), fixed_from_int(20), fixed_from_int(30));
+    combined = matrix_mul(&trans2, &trans);
+
+    TEST_ASSERT_EQUAL_INT(15, fixed_to_int(combined.m[0][3]));
+    TEST_ASSERT_EQUAL_INT(17, fixed_to_int(combined.m[1][3]));
+    TEST_ASSERT_EQUAL_INT(37, fixed_to_int(combined.m[2][3]));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -482,6 +541,11 @@ int main(void) {
     test_begin_suite(&results, "Matrix-Vector Operations");
     test_run(&results, test_matrix_mul_vector4, "Matrix-Vector4 Multiplication");
     test_run(&results, test_matrix_mul_vector3, "Matrix-Vector3 Multiplication");
+    test_end_suite(&results);
+
+    /* Run matrix transform matrices tests */
+    test_begin_suite(&results, "Transform Matrices");
+    test_run(&results, test_matrix_translation, "Translation Matrix");
     test_end_suite(&results);
 
     /* Print final results */

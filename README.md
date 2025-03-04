@@ -76,7 +76,7 @@
       - ~~Operation test suite~~
    
    c. Transform Matrices
-      - Translation matrix generation
+      - ~~Translation matrix generation~~
       - Scale matrix generation
       - X-axis rotation matrix
       - Y-axis rotation matrix
