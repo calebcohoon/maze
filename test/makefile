@@ -108,6 +108,24 @@ matrix.obj: ..\src\matrix.c ..\include\matrix.h
 tmatrix.obj: tmatrix.c tmath.h ..\include\matrix.h
 	$(CC) $(CFLAGS) tmatrix.c
 
+ttrig.exe: tmath.obj fixed.obj trig.obj ttrig.obj ttrig.lnk
+	wlink @ttrig.lnk
+
+ttrig.lnk:
+	@echo system dos4g > ttrig.lnk
+	@echo option stack=8k >> ttrig.lnk
+	@echo name ttrig.exe >> ttrig.lnk
+	@echo file tmath.obj >> ttrig.lnk
+	@echo file fixed.obj >> ttrig.lnk
+	@echo file trig.obj >> ttrig.lnk
+	@echo file ttrig.obj >> ttrig.lnk
+
+trig.obj: ..\src\trig.c ..\include\trig.h
+	$(CC) $(CFLAGS) ..\src\trig.c
+
+ttrig.obj: ttrig.c tmath.h ..\include\trig.h
+	$(CC) $(CFLAGS) ttrig.c
+
 clean:
 	del *.obj
 	del *.lnk
@@ -116,9 +134,11 @@ clean:
 	del tfixed.exe
 	del tvector.exe
 	del tmatrix.exe
+	del ttrig.exe
 
-test: tmath.exe tfixed.exe tvector.exe tmatrix.exe
+test: tmath.exe tfixed.exe tvector.exe tmatrix.exe ttrig.exe
 	tmath.exe
 	tfixed.exe
 	tvector.exe
 	tmatrix.exe
+	ttrig.exe
