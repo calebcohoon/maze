@@ -85,8 +85,8 @@
 
 4. Trigonometry System
    a. Lookup Tables
-      - Sine table generation
-      - Cosine table generation
+      - ~~Sine table generation~~
+      - ~~Cosine table generation~~
       - Tangent table evaluation
       - Table precision testing
    
