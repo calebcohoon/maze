@@ -8,6 +8,8 @@
 
 #include <stdio.h>
 
+#include "..\include\trig.h"
+
 /*
  * matrix_init: Initialize a matrix with all zeros
  *
@@ -281,6 +283,35 @@ matrix_t matrix_scaling(fixed_t x, fixed_t y, fixed_t z) {
     result.m[1][1] = y;
     result.m[2][2] = z;
     result.m[3][3] = FIXED_ONE;
+
+    return result;
+}
+
+/*
+ * matrix_rotation_x: Create a rotation matrix around the X axis
+ *
+ * Parameters:
+ *   angle - Rotation angle in trig_angle units 0 - 255
+ *
+ * Returns:
+ *   A 4x4 matrix representing rotation around the X axis
+ *
+ * Notes:
+ *   - Requires trig_init() to be called before use
+ */
+matrix_t matrix_rotation_x(unsigned char angle) {
+    matrix_t result = matrix_identity();
+    fixed_t cos_val, sin_val;
+
+    /* Get sine and cosine values from trig table */
+    sin_val = trig_sine(angle);
+    cos_val = trig_cosine(angle);
+
+    /* Set matrix elements for X-axis rotation */
+    result.m[1][1] = cos_val;
+    result.m[1][2] = fixed_neg(sin_val);
+    result.m[2][1] = sin_val;
+    result.m[2][2] = cos_val;
 
     return result;
 }

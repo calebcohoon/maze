@@ -89,7 +89,7 @@ vector.obj: ..\src\vector.c ..\include\vector.h
 tvector.obj: tvector.c tmath.h ..\include\vector.h
 	$(CC) $(CFLAGS) tvector.c
 
-tmatrix.exe: tmath.obj fixed.obj vector.obj matrix.obj tmatrix.obj tmatrix.lnk
+tmatrix.exe: tmath.obj fixed.obj vector.obj trig.obj matrix.obj tmatrix.obj tmatrix.lnk
 	wlink @tmatrix.lnk
 
 tmatrix.lnk:
@@ -99,6 +99,7 @@ tmatrix.lnk:
 	@echo file tmath.obj >> tmatrix.lnk
 	@echo file fixed.obj >> tmatrix.lnk
 	@echo file vector.obj >> tmatrix.lnk
+	@echo file trig.obj >> tmatrix.lnk
 	@echo file matrix.obj >> tmatrix.lnk
 	@echo file tmatrix.obj >> tmatrix.lnk
 

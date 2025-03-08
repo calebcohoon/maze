@@ -78,7 +78,7 @@
    c. Transform Matrices
       - ~~Translation matrix generation~~
       - ~~Scale matrix generation~~
-      - X-axis rotation matrix
+      - ~~X-axis rotation matrix~~
       - Y-axis rotation matrix
       - Z-axis rotation matrix
       - Combined transformation tests

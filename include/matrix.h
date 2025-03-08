@@ -29,6 +29,7 @@ vector3_t matrix_mul_vector3(const matrix_t *m, const vector3_t *v);
 matrix_t matrix_mul(const matrix_t *a, const matrix_t *b);
 matrix_t matrix_translation(fixed_t x, fixed_t y, fixed_t z);
 matrix_t matrix_scaling(fixed_t x, fixed_t y, fixed_t z);
+matrix_t matrix_rotation_x(unsigned char angle);
 int matrix_is_identity(const matrix_t *mat);
 int matrix_equals(const matrix_t *a, const matrix_t *b);
 void matrix_print(const matrix_t *mat);  // Debug function
