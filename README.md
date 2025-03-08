@@ -80,7 +80,7 @@
       - ~~Scale matrix generation~~
       - ~~X-axis rotation matrix~~
       - ~~Y-axis rotation matrix~~
-      - Z-axis rotation matrix
+      - ~~Z-axis rotation matrix~~
       - Combined transformation tests
 
 4. Trigonometry System

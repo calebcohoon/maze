@@ -346,6 +346,35 @@ matrix_t matrix_rotation_y(unsigned char angle) {
 }
 
 /*
+ * matrix_rotation_z: Create a rotation matrix around the Z axis
+ *
+ * Parameters:
+ *   angle - Rotation angle in trig_angle units 0 - 255
+ *
+ * Returns:
+ *   A 4x4 matrix representing rotation around the Z axis
+ *
+ * Notes:
+ *   - Requires trig_init() to be called before use
+ */
+matrix_t matrix_rotation_z(unsigned char angle) {
+    matrix_t result = matrix_identity();
+    fixed_t cos_val, sin_val;
+
+    /* Get sine and cosine values from trig table */
+    sin_val = trig_sine(angle);
+    cos_val = trig_cosine(angle);
+
+    /* Set matrix elements for X-axis rotation */
+    result.m[0][0] = cos_val;
+    result.m[0][1] = fixed_neg(sin_val);
+    result.m[1][0] = sin_val;
+    result.m[1][1] = cos_val;
+
+    return result;
+}
+
+/*
  * matrix_is_identity: Check if a matrix is an identity matrix
  *
  * Parameters:

@@ -659,6 +659,48 @@ void test_matrix_rotation_y(void) {
     TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
 }
 
+/* Test rotation matrix creation for Z axis */
+void test_matrix_rotation_z(void) {
+    unsigned char angle = 64;  // 90 deg
+    matrix_t rot;
+    vector4_t v = vector4_init_int(1, 1, 1, 1);
+    vector4_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    rot = matrix_rotation_z(angle);
+
+    /* Check the matrix structure */
+    TEST_ASSERT_EQUAL_FLOAT(0.0f, fixed_to_float(rot.m[0][0]), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(-1.0f, fixed_to_float(rot.m[0][1]), 0.01f);
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[0][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[0][3]));
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0f, fixed_to_float(rot.m[1][0]), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(0.0f, fixed_to_float(rot.m[1][1]), 0.01f);
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[1][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[1][3]));
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[2][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[2][1]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(rot.m[2][2]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[2][3]));
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[3][0]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[3][1]));
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(rot.m[3][2]));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(rot.m[3][3]));
+
+    /* Test rotating a point (1, 1, 1, 1) by 90 degrees around Z */
+    result = matrix_mul_vector4(&rot, &v);
+
+    TEST_ASSERT_EQUAL_FLOAT(-1.0f, fixed_to_float(result.x), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(1.0f, fixed_to_float(result.y), 0.01f);
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.z));
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -704,6 +746,7 @@ int main(void) {
     test_run(&results, test_matrix_scaling, "Scaling Matrix");
     test_run(&results, test_matrix_rotation_x, "X-Axis Rotation Matrix");
     test_run(&results, test_matrix_rotation_y, "Y-Axis Rotation Matrix");
+    test_run(&results, test_matrix_rotation_z, "Z-Axis Rotation Matrix");
     test_end_suite(&results);
 
     /* Print final results */

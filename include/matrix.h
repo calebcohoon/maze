@@ -31,6 +31,7 @@ matrix_t matrix_translation(fixed_t x, fixed_t y, fixed_t z);
 matrix_t matrix_scaling(fixed_t x, fixed_t y, fixed_t z);
 matrix_t matrix_rotation_x(unsigned char angle);
 matrix_t matrix_rotation_y(unsigned char angle);
+matrix_t matrix_rotation_z(unsigned char angle);
 int matrix_is_identity(const matrix_t *mat);
 int matrix_equals(const matrix_t *a, const matrix_t *b);
 void matrix_print(const matrix_t *mat);  // Debug function
