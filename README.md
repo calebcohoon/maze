@@ -87,8 +87,8 @@
    a. Lookup Tables
       - ~~Sine table generation~~
       - ~~Cosine table generation~~
-      - Tangent table evaluation
-      - Table precision testing
+      - ~~Tangent table evaluation~~
+      - ~~Table precision testing~~
    
    b. Interpolation
       - Linear interpolation
