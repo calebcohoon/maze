@@ -701,6 +701,40 @@ void test_matrix_rotation_z(void) {
     TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
 }
 
+/* Test multiple transformations applied in sequence */
+void test_combined_transformations(void) {
+    vector4_t point = vector4_init_int(10, 5, 3, 1);
+    vector4_t result;
+    matrix_t scale, rot_x, rot_y, rot_z, trans, combined;
+
+    /* Initialize the table */
+    trig_init();
+
+    /* Create individual transformation matrices */
+    scale = matrix_scaling(fixed_from_int(2), fixed_from_int(2), fixed_from_int(2));
+    rot_x = matrix_rotation_x(32);  // 45 deg
+    rot_y = matrix_rotation_y(32);  // 45 deg
+    rot_z = matrix_rotation_z(32);  // 45 deg
+    trans = matrix_translation(fixed_from_int(5), fixed_from_int(-3), fixed_from_int(10));
+
+    /* Combine transformations in correct order */
+    combined = matrix_identity();
+    combined = matrix_mul(&combined, &scale);
+    combined = matrix_mul(&combined, &rot_x);
+    combined = matrix_mul(&combined, &rot_y);
+    combined = matrix_mul(&combined, &rot_z);
+    combined = matrix_mul(&combined, &trans);
+
+    /* Apply the combined transformation to the point */
+    result = matrix_mul_vector4(&combined, &point);
+
+    /* Verify results of combined transformation */
+    TEST_ASSERT_EQUAL_FLOAT(31.38f, fixed_to_float(result.x), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(13.19f, fixed_to_float(result.y), 0.01f);
+    TEST_ASSERT_EQUAL_FLOAT(20.80f, fixed_to_float(result.z), 0.01f);
+    TEST_ASSERT_EQUAL_INT(1, fixed_to_int(result.w));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -747,6 +781,7 @@ int main(void) {
     test_run(&results, test_matrix_rotation_x, "X-Axis Rotation Matrix");
     test_run(&results, test_matrix_rotation_y, "Y-Axis Rotation Matrix");
     test_run(&results, test_matrix_rotation_z, "Z-Axis Rotation Matrix");
+    test_run(&results, test_combined_transformations, "Combined Sequential Transformations");
     test_end_suite(&results);
 
     /* Print final results */

@@ -81,7 +81,7 @@
       - ~~X-axis rotation matrix~~
       - ~~Y-axis rotation matrix~~
       - ~~Z-axis rotation matrix~~
-      - Combined transformation tests
+      - ~~Combined transformation tests~~
 
 4. Trigonometry System
    a. Lookup Tables
