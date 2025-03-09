@@ -225,5 +225,8 @@ int main(void) {
     test_run(&results, test_trig_angle_wrapping, "Angle Wrapping");
     test_end_suite(&results);
 
+    /* Print final results */
+    test_print_results(&results);
+
     return 0;
 }

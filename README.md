@@ -91,10 +91,7 @@
       - ~~Table precision testing~~
    
    b. Interpolation
-      - Linear interpolation
-      - Angular interpolation
-      - Table lookup optimization
-      - Accuracy validation
+      - ~~Linear interpolation~~
 
 ### Phase 3: 3D Graphics Pipeline
 1. Basic 3D Structures

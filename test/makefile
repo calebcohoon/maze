@@ -127,6 +127,24 @@ trig.obj: ..\src\trig.c ..\include\trig.h
 ttrig.obj: ttrig.c tmath.h ..\include\trig.h
 	$(CC) $(CFLAGS) ttrig.c
 
+tinterp.exe: tmath.obj fixed.obj interp.obj tinterp.obj tinterp.lnk
+	wlink @tinterp.lnk
+
+tinterp.lnk:
+	@echo system dos4g > tinterp.lnk
+	@echo option stack=8k >> tinterp.lnk
+	@echo name tinterp.exe >> tinterp.lnk
+	@echo file tmath.obj >> tinterp.lnk
+	@echo file fixed.obj >> tinterp.lnk
+	@echo file interp.obj >> tinterp.lnk
+	@echo file tinterp.obj >> tinterp.lnk
+
+interp.obj: ..\src\interp.c ..\include\interp.h
+	$(CC) $(CFLAGS) ..\src\interp.c
+
+tinterp.obj: tinterp.c tmath.h ..\include\interp.h
+	$(CC) $(CFLAGS) tinterp.c
+
 clean:
 	del *.obj
 	del *.lnk
@@ -136,10 +154,12 @@ clean:
 	del tvector.exe
 	del tmatrix.exe
 	del ttrig.exe
+	del tinterp.exe
 
-test: tmath.exe tfixed.exe tvector.exe tmatrix.exe ttrig.exe
+test: tmath.exe tfixed.exe tvector.exe tmatrix.exe ttrig.exe tinterp.exe
 	tmath.exe
 	tfixed.exe
 	tvector.exe
 	tmatrix.exe
 	ttrig.exe
+	tinterp.exe
