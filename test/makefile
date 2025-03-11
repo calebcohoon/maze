@@ -145,6 +145,27 @@ interp.obj: ..\src\interp.c ..\include\interp.h
 tinterp.obj: tinterp.c tmath.h ..\include\interp.h
 	$(CC) $(CFLAGS) tinterp.c
 
+tvertex.exe: tmath.obj fixed.obj vector.obj matrix.obj trig.obj vertex.obj tvertex.obj tvertex.lnk
+	wlink @tvertex.lnk
+
+tvertex.lnk:
+	@echo system dos4g > tvertex.lnk
+	@echo option stack=8k >> tvertex.lnk
+	@echo name tvertex.exe >> tvertex.lnk
+	@echo file tmath.obj >> tvertex.lnk
+	@echo file fixed.obj >> tvertex.lnk
+	@echo file vector.obj >> tvertex.lnk
+	@echo file matrix.obj >> tvertex.lnk
+	@echo file trig.obj >> tvertex.lnk
+	@echo file vertex.obj >> tvertex.lnk
+	@echo file tvertex.obj >> tvertex.lnk
+
+vertex.obj: ..\src\vertex.c ..\include\vertex.h
+	$(CC) $(CFLAGS) ..\src\vertex.c
+
+tvertex.obj: tvertex.c tmath.h ..\include\vertex.h
+	$(CC) $(CFLAGS) tvertex.c
+
 clean:
 	del *.obj
 	del *.lnk
@@ -155,11 +176,13 @@ clean:
 	del tmatrix.exe
 	del ttrig.exe
 	del tinterp.exe
+	del tvertex.exe
 
-test: tmath.exe tfixed.exe tvector.exe tmatrix.exe ttrig.exe tinterp.exe
+test: tmath.exe tfixed.exe tvector.exe tmatrix.exe ttrig.exe tinterp.exe tvertex.exe
 	tmath.exe
 	tfixed.exe
 	tvector.exe
 	tmatrix.exe
 	ttrig.exe
 	tinterp.exe
+	tvertex.exe

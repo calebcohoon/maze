@@ -96,11 +96,11 @@
 ### Phase 3: 3D Graphics Pipeline
 1. Basic 3D Structures
    a. Vertex System
-      - Vertex structure definition
-      - Vertex transformation functions
-      - Vertex normal handling
-      - Vertex color handling
-      - Vertex UV coordinate system
+      - ~~Vertex structure definition~~
+      - ~~Vertex transformation functions~~
+      - ~~Vertex normal handling~~
+      - ~~Vertex color handling~~
+      - ~~Vertex UV coordinate system~~
    
    b. Triangle System
       - Triangle structure definition
