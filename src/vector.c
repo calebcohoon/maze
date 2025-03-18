@@ -6,6 +6,8 @@
 
 #include "..\include\vector.h"
 
+#include "..\include\trig.h"
+
 /*
  * vector2_init: Initialize a 2D vector with given components
  *
@@ -208,7 +210,7 @@ fixed_t vector2_angle(vector2_t a, vector2_t b) {
     }
 
     /* Return angle in radians using arccos */
-    return fixed_arccos(cos_theta);
+    return trig_arccos(cos_theta);
 }
 
 /*
@@ -440,7 +442,7 @@ fixed_t vector3_angle(vector3_t a, vector3_t b) {
     }
 
     /* Return angle in radians using arccos */
-    return fixed_arccos(cos_theta);
+    return trig_arccos(cos_theta);
 }
 
 /*

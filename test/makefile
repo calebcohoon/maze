@@ -80,8 +80,18 @@ fixed.obj: ..\src\fixed.c ..\include\fixed.h
 tfixed.obj: tfixed.c tmath.h ..\include\fixed.h
 	$(CC) $(CFLAGS) tfixed.c
 
-tvector.exe: tmath.obj fixed.obj vector.obj tvector.obj
-	wlink $(LFLAGS) name $@ file { tmath.obj fixed.obj vector.obj tvector.obj }
+tvector.exe: tmath.obj fixed.obj trig.obj vector.obj tvector.obj tvector.lnk
+	wlink @tvector.lnk
+
+tvector.lnk:
+	@echo system dos4g > tvector.lnk
+	@echo option stack=8k >> tvector.lnk
+	@echo name tvector.exe >> tvector.lnk
+	@echo file tmath.obj >> tvector.lnk
+	@echo file fixed.obj >> tvector.lnk
+	@echo file trig.obj >> tvector.lnk
+	@echo file vector.obj >> tvector.lnk
+	@echo file tvector.obj >> tvector.lnk
 
 vector.obj: ..\src\vector.c ..\include\vector.h
 	$(CC) $(CFLAGS) ..\src\vector.c

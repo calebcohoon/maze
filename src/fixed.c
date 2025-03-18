@@ -6,28 +6,6 @@
 
 #include "..\include\fixed.h"
 
-/* Number of entries in the trig lookup table */
-#define TRIG_TABLE_SIZE 13
-
-/*
- * Trigonometric lookup table
- */
-static const fixed_t trig_table[TRIG_TABLE_SIZE][2] = {
-    {65536L, 0},         // cos(0)
-    {63300L, 17170L},    // cos(15)
-    {56756L, 34326L},    // cos(30)
-    {46341L, 51472L},    // cos(45)
-    {32768L, 68619L},    // cos(60)
-    {16962L, 85765L},    // cos(75)
-    {0L, 102944L},       // cos(90)
-    {-16962L, 120123L},  // cos(105)
-    {-32768L, 137270L},  // cos(120)
-    {-46341L, 154417L},  // cos(135)
-    {-56756L, 171563L},  // cos(150)
-    {-63300L, 188710L},  // cos(165)
-    {-65536L, 205887L}   // cos(180)
-};
-
 /*
  * fixed_from_int: Convert integer to fixed-point number
  *
@@ -310,73 +288,4 @@ fixed_t fixed_sqrt(fixed_t x) {
     }
 
     return result;
-}
-
-/*
- * fixed_arccos: Calculate the inverse of the cosine of a fixed-point value
- *
- * Parameters:
- *   x - Cosine value in fixed-point format in range [-1, 1]
- *
- * Returns:
- *   Angle in radians as a fixed-point number
- *   Returns 0 if input is out of range
- */
-fixed_t fixed_arccos(fixed_t x) {
-    fixed_t cos_lo, cos_hi, angle_lo, angle_hi;
-    fixed_t numerator, denominator, t, angle_delta, angle_offset;
-    int i;
-
-    /* Check if input is within valid range */
-    if (x < -FIXED_ONE || x > FIXED_ONE) {
-        return 0;
-    }
-
-    /* Special cases for exact values */
-    if (x == FIXED_ONE) {
-        return 0;
-    }
-
-    if (x == FIXED_ZERO) {
-        return fixed_div(FIXED_PI, fixed_from_int(2));
-    }
-
-    if (x == -FIXED_ONE) {
-        return FIXED_PI;
-    }
-
-    /* Find the right segment in the lookup table */
-    for (i = 0; i < TRIG_TABLE_SIZE - 1; i++) {
-        if (x >= trig_table[i + 1][0] && x <= trig_table[i][0]) {
-            break;
-        }
-    }
-
-    /* If we reach the end of the table, clamp to valid range */
-    if (i >= TRIG_TABLE_SIZE - 1) {
-        i = TRIG_TABLE_SIZE - 2;
-    }
-
-    /* Linear interpolation between adjacent table entries */
-    cos_lo = trig_table[i + 1][0];
-    cos_hi = trig_table[i][0];
-    angle_lo = trig_table[i + 1][1];
-    angle_hi = trig_table[i][1];
-
-    /* t = (x - cos_lo) / (cos_hi - cos_lo) */
-    numerator = fixed_sub(x, cos_lo);
-    denominator = fixed_sub(cos_hi, cos_lo);
-
-    /* Avoid division by zero */
-    if (denominator == 0) {
-        return angle_lo;
-    }
-
-    t = fixed_div(numerator, denominator);
-
-    /* angle = angle_lo + t * (angle_hi - angle_lo) */
-    angle_delta = fixed_sub(angle_hi, angle_lo);
-    angle_offset = fixed_mul(t, angle_delta);
-
-    return fixed_add(angle_lo, angle_offset);
 }

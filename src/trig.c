@@ -107,6 +107,59 @@ fixed_t trig_tangent(unsigned char angle) {
 }
 
 /*
+ * trig_arccos: Calculate the inverse of the cosine of a fixed-point value
+ *
+ * Parameters:
+ *   x - Cosine value in fixed-point format in range [-1, 1]
+ *
+ * Returns:
+ *   Angle in radians as a fixed-point number
+ *   Returns 0 if input is out of range
+ */
+fixed_t trig_arccos(fixed_t x) {
+    int i;
+    fixed_t closest_diff = FIXED_MAX;
+    int closest_index = 0;
+    fixed_t cos_val, diff;
+
+    /* Check if input is within valid range */
+    if (x < -FIXED_ONE || x > FIXED_ONE) {
+        return 0;
+    }
+
+    /* Special cases for exact values */
+    if (x == FIXED_ONE) {
+        return 0;
+    }
+
+    if (x == FIXED_ZERO) {
+        return fixed_div(FIXED_PI, fixed_from_int(2));
+    }
+
+    if (x == -FIXED_ONE) {
+        return FIXED_PI;
+    }
+
+    /* Scan through the cosine table to find the closest value */
+    for (i = 0; i < TRIG_TABLE_SIZE - 1; i++) {
+        /* Get the cosine value at this angle */
+        cos_val = sine_table[(i + 64) % TRIG_TABLE_SIZE];
+
+        /* Calculate the distance to our target value */
+        diff = fixed_abs(fixed_sub(cos_val, x));
+
+        /* If this is closer than our previous best match */
+        if (diff < closest_diff) {
+            closest_diff = diff;
+            closest_index = i;
+        }
+    }
+
+    /* Convert the angle from table index to radians */
+    return fixed_mul(fixed_from_int(closest_index), fixed_div(FIXED_PI, fixed_from_int(128)));
+}
+
+/*
  * trig_get_sine_table: Get pointer to the sine table
  *
  * Returns:

@@ -21,6 +21,7 @@ void trig_init();
 fixed_t trig_sine(unsigned char angle);
 fixed_t trig_cosine(unsigned char angle);
 fixed_t trig_tangent(unsigned char angle);
+fixed_t trig_arccos(fixed_t x);
 const fixed_t *trig_get_sine_table(void);
 const fixed_t *trig_get_tangent_table(void);
 

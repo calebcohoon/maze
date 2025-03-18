@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 
+#include "..\include\trig.h"
 #include "..\include\vector.h"
 #include "tmath.h"
 
@@ -94,7 +95,12 @@ void test_vector2_normalize(void) {
 void test_vector2_angle_perpendicular(void) {
     vector2_t a = vector2_init_int(1, 0);
     vector2_t b = vector2_init_int(0, 1);
-    fixed_t result = vector2_angle(a, b);
+    fixed_t result;
+
+    /* Initialize the trig table */
+    trig_init();
+
+    result = vector2_angle(a, b);
 
     TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 2.0f, fixed_to_float(result), 0.05f);
 }
@@ -103,7 +109,12 @@ void test_vector2_angle_perpendicular(void) {
 void test_vector2_angle_parallel(void) {
     vector2_t a = vector2_init_int(2, 3);
     vector2_t b = vector2_init_int(4, 6);
-    fixed_t result = vector2_angle(a, b);
+    fixed_t result;
+
+    /* Initialize the trig table */
+    trig_init();
+
+    result = vector2_angle(a, b);
 
     TEST_ASSERT_EQUAL_FLOAT(0.0f, fixed_to_float(result), 0.05f);
 }
@@ -112,7 +123,12 @@ void test_vector2_angle_parallel(void) {
 void test_vector2_angle_opposite(void) {
     vector2_t a = vector2_init_int(1, 2);
     vector2_t b = vector2_init_int(-1, -2);
-    fixed_t result = vector2_angle(a, b);
+    fixed_t result;
+
+    /* Initialize the trig table */
+    trig_init();
+
+    result = vector2_angle(a, b);
 
     TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI), fixed_to_float(result), 0.05f);
 }
@@ -253,7 +269,12 @@ void test_vector3_normalize(void) {
 void test_vector3_angle_perpendicular(void) {
     vector3_t a = vector3_init_int(1, 0, 0);
     vector3_t b = vector3_init_int(0, 1, 0);
-    fixed_t result = vector3_angle(a, b);
+    fixed_t result;
+
+    /* Initialize the trig table */
+    trig_init();
+
+    result = vector3_angle(a, b);
 
     TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 2.0f, fixed_to_float(result), 0.05f);
 }
@@ -262,7 +283,12 @@ void test_vector3_angle_perpendicular(void) {
 void test_vector3_angle_45_degrees(void) {
     vector3_t a = vector3_init_int(1, 0, 0);
     vector3_t b = vector3_init_int(1, 1, 0);
-    fixed_t result = vector3_angle(a, b);
+    fixed_t result;
+
+    /* Initialize the trig table */
+    trig_init();
+
+    result = vector3_angle(a, b);
 
     TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 4.0f, fixed_to_float(result), 0.05f);
 }
@@ -395,8 +421,14 @@ void test_vector_angle_zero(void) {
     vector3_t a3 = vector3_init_int(1, 2, 3);
     vector3_t zero3 = vector3_init(FIXED_ZERO, FIXED_ZERO, FIXED_ZERO);
 
-    fixed_t result2 = vector2_angle(a2, zero2);
-    fixed_t result3 = vector3_angle(a3, zero3);
+    fixed_t result2;
+    fixed_t result3;
+
+    /* Initialize the trig table */
+    trig_init();
+
+    result2 = vector2_angle(a2, zero2);
+    result3 = vector3_angle(a3, zero3);
 
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result2));
     TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result3));

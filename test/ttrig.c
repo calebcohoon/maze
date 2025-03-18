@@ -188,6 +188,84 @@ void test_trig_tangent_relation(void) {
     }
 }
 
+/* Test arccos of 1.0 (should be 0) */
+void test_arccos_one(void) {
+    fixed_t x = FIXED_ONE;
+    fixed_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    result = trig_arccos(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_int(result));
+}
+
+/* Test arccos of -1.0 (should be PI) */
+void test_arccos_neg_one(void) {
+    fixed_t x = -FIXED_ONE;
+    fixed_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    result = trig_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI), fixed_to_float(result), 0.01f);
+}
+
+/* Test arccos of 0.0 (should be PI/2) */
+void test_arccos_zero(void) {
+    fixed_t x = FIXED_ZERO;
+    fixed_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    result = trig_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(fixed_to_float(FIXED_PI) / 2.0f, fixed_to_float(result), 0.01f);
+}
+
+/* Test arccos of 0.5 (should be PI/3) */
+void test_arccos_half(void) {
+    fixed_t x = FIXED_ONE / 2;
+    fixed_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    result = trig_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.047f, fixed_to_float(result), 0.05f);
+}
+
+/* Test arccos of -0.5 (should be 2*PI/3) */
+void test_arccos_neg_half(void) {
+    fixed_t x = -FIXED_ONE / 2;
+    fixed_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    result = trig_arccos(x);
+
+    TEST_ASSERT_EQUAL_FLOAT(2.094f, fixed_to_float(result), 0.05f);
+}
+
+/* Test arccos out of range (should return 0) */
+void test_arccos_out_of_range(void) {
+    fixed_t x = FIXED_ONE + FIXED_ONE;
+    fixed_t result;
+
+    /* Initialize the table */
+    trig_init();
+
+    result = trig_arccos(x);
+
+    TEST_ASSERT_EQUAL_INT(0, fixed_to_float(result));
+}
+
 int main(void) {
     test_results_t results;
 
@@ -223,6 +301,16 @@ int main(void) {
     test_begin_suite(&results, "Trigonometric Relationships");
     test_run(&results, test_trig_sin_cos_relation, "Sine and Cosine Relation");
     test_run(&results, test_trig_angle_wrapping, "Angle Wrapping");
+    test_end_suite(&results);
+
+    /* Run arccos tests */
+    test_begin_suite(&results, "Trigonometric Arccos");
+    test_run(&results, test_arccos_one, "Arccos of 1.0");
+    test_run(&results, test_arccos_neg_one, "Arccos of -1.0");
+    test_run(&results, test_arccos_zero, "Arccos of 0.0");
+    test_run(&results, test_arccos_half, "Arccos of 0.5");
+    test_run(&results, test_arccos_neg_half, "Arccos of -0.5");
+    test_run(&results, test_arccos_out_of_range, "Arccos Out of Range");
     test_end_suite(&results);
 
     /* Print final results */
