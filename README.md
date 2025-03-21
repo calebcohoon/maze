@@ -103,11 +103,10 @@
       - ~~Vertex UV coordinate system~~
    
    b. Triangle System
-      - Triangle structure definition
-      - Triangle normal calculation
-      - Triangle bounds calculation
-      - Basic triangle operations
-      - Triangle validation
+      - ~~Triangle structure definition~~
+      - ~~Triangle normal calculation~~
+      - ~~Basic triangle operations~~
+      - ~~Triangle validation~~
 
 2. Projection System
    a. View Setup
